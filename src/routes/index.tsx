@@ -308,15 +308,15 @@ function Pricing() {
 
 function Results() {
   const cases = [
-    { name: "Lucas R.", role: "Coach de inglês — LLC FL", quote: "Em 3 semanas, 11 calls qualificadas. Fechei 4. Pago tudo da minha cota de booked calls e ainda sobra.", metric: "+11 calls / 21d" },
-    { name: "Marina P.", role: "Consultoria — Inc. DE", quote: "Cansei de pagar agência R$15k/mês sem retorno. Aive entregou 7 calls no primeiro mês, sem eu colocar grana em ads.", metric: "7 calls / mês 1" },
-    { name: "Rafael M.", role: "Agência SMMA — LLC WY", quote: "Modelo 100% alinhado. Eles só ganham se eu ganhar. Já são 4 meses batendo a meta.", metric: "8 calls/mês avg" },
+    { name: "Lucas R.", role: "English coach — LLC, FL", quote: "11 qualified calls in 3 weeks. Closed 4. Pays for itself and then some.", metric: "+11 calls / 21d" },
+    { name: "Marina P.", role: "Consulting — Inc., DE", quote: "I was bleeding $3k/mo on a retainer agency for nothing. Aive delivered 7 calls in month one without me spending a cent on ads.", metric: "7 calls / month 1" },
+    { name: "Rafael M.", role: "SMMA — LLC, WY", quote: "Incentives fully aligned. They only win if I win. 4 months in and they keep hitting the number.", metric: "8 calls/mo avg" },
   ];
   return (
     <section id="results" className="mx-auto max-w-7xl px-6 py-24">
       <div className="text-center max-w-2xl mx-auto">
-        <p className="text-sm font-semibold uppercase tracking-widest text-[oklch(0.82_0.17_75)]">Resultados</p>
-        <h2 className="mt-4 text-4xl md:text-5xl font-bold">Brasileiros nos EUA escalando com a Aive.</h2>
+        <p className="text-sm font-semibold uppercase tracking-widest text-[oklch(0.82_0.17_75)]">Results</p>
+        <h2 className="mt-4 text-4xl md:text-5xl font-bold">Brazilian founders scaling in the US with Aive.</h2>
       </div>
       <div className="mt-14 grid md:grid-cols-3 gap-5">
         {cases.map((c) => (
@@ -336,18 +336,18 @@ function Results() {
 
 function FAQ() {
   const items = [
-    { q: "Como vocês cobram exatamente $127 por call?", a: "Você é cobrado apenas quando um lead qualificado agenda uma call no seu calendário. Sem agendamento = sem cobrança." },
-    { q: "Preciso pagar ad spend?", a: "Não. Cobrimos 100% do investimento em mídia. Esse é o nosso risco — só ganhamos quando entregamos calls." },
-    { q: "Em quanto tempo lança?", a: "Lançamos em até 7 dias após o onboarding. Criativos, copy, landing page e tracking são feitos pelo nosso time." },
-    { q: "Funciona pra qualquer nicho?", a: "Atendemos brasileiros com LLC ou Inc. nos EUA — coaches, agências, consultorias, infoprodutos e serviços B2B principalmente." },
-    { q: "E se a call não for qualificada?", a: "Calls que não batem o critério acordado no kickoff não são cobradas. Definimos isso juntos antes do launch." },
-    { q: "Tem fidelidade ou contrato longo?", a: "Não. Modelo mensal. Se não estiver entregando, você sai." },
+    { q: "How exactly do you charge $127 per call?", a: "You're billed only when a qualified lead books a call on your calendar. No booking, no charge." },
+    { q: "Do I have to pay ad spend?", a: "No. We cover 100% of the media spend. That's our risk — we only win when we deliver calls." },
+    { q: "How fast do you launch?", a: "Live in under 7 days after onboarding. Creatives, copy, landing page and tracking are built by our team." },
+    { q: "Does it work for any niche?", a: "We work with Brazilian-owned LLCs and Inc.s in the US — primarily coaches, agencies, consulting and B2B services." },
+    { q: "What if a call isn't qualified?", a: "Calls that don't meet the criteria agreed at kickoff are not billed. We define this together before launch." },
+    { q: "Any long-term contract?", a: "No lock-in. Month-to-month. If we're not delivering, you walk." },
   ];
   return (
     <section id="faq" className="mx-auto max-w-4xl px-6 py-24">
       <div className="text-center">
         <p className="text-sm font-semibold uppercase tracking-widest text-[oklch(0.82_0.17_75)]">FAQ</p>
-        <h2 className="mt-4 text-4xl md:text-5xl font-bold">Perguntas frequentes.</h2>
+        <h2 className="mt-4 text-4xl md:text-5xl font-bold">Frequently asked questions.</h2>
       </div>
       <div className="mt-12 space-y-3">
         {items.map((it, i) => <FAQItem key={i} {...it} />)}
