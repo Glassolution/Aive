@@ -373,102 +373,35 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 
 function CTA() {
-  const [submitted, setSubmitted] = useState(false);
   return (
     <section id="book" className="mx-auto max-w-6xl px-6 py-24">
-      <div className="relative rounded-[2rem] border border-border bg-card/60 backdrop-blur overflow-hidden p-8 md:p-14">
+      <div className="relative rounded-[2rem] border border-border bg-card/60 backdrop-blur overflow-hidden p-10 md:p-16 text-center">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(0.74_0.18_50/0.2),transparent_60%)]" />
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-              Pronto pra encher a agenda<br />
-              <span className="text-gradient-brand">com calls qualificadas?</span>
-            </h2>
-            <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
-              Aplique abaixo. Se for fit, a gente lança a operação em até 7 dias.
-              Você não paga nada até a primeira call cair na sua agenda.
-            </p>
-            <ul className="mt-8 space-y-3 text-sm">
-              {["Sem ad spend do seu bolso", "Sem retainer mensal", "Launch em <7 dias", "$127 só por call qualificada"].map((x) => (
-                <li key={x} className="flex items-center gap-3">
-                  <CheckCircle2 className="h-5 w-5 text-[oklch(0.74_0.18_50)]" />
-                  <span>{x}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSubmitted(true);
-            }}
-            className="rounded-2xl border border-border bg-background/70 backdrop-blur p-6 md:p-8 space-y-4"
+        <div className="mx-auto max-w-2xl">
+          <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+            Ready to fill your calendar<br />
+            <span className="text-gradient-brand">with qualified calls?</span>
+          </h2>
+          <p className="mt-5 text-lg text-muted-foreground leading-relaxed">
+            Book a free strategy session. If we're a fit, we launch your ads in under 7 days —
+            and you don't pay a dollar until calls land on your calendar.
+          </p>
+          <Button
+            asChild
+            size="lg"
+            className="mt-9 bg-gradient-brand text-primary-foreground hover:opacity-90 font-semibold h-14 px-10 text-base shadow-[var(--glow-brand)]"
           >
-            {submitted ? (
-              <div className="py-10 text-center">
-                <div className="mx-auto h-14 w-14 rounded-full bg-gradient-brand inline-flex items-center justify-center">
-                  <CheckCircle2 className="h-8 w-8 text-primary-foreground" />
-                </div>
-                <h3 className="mt-5 text-2xl font-bold">Aplicação recebida!</h3>
-                <p className="mt-2 text-muted-foreground">Nosso time entra em contato em até 24h.</p>
-              </div>
-            ) : (
-              <>
-                <h3 className="text-xl font-bold">Aplique para trabalhar com a Aive</h3>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <Field label="Nome">
-                    <Input required placeholder="Seu nome" className="bg-card/50 border-border h-11" />
-                  </Field>
-                  <Field label="Email">
-                    <Input required type="email" placeholder="voce@empresa.com" className="bg-card/50 border-border h-11" />
-                  </Field>
-                </div>
-                <Field label="Nome da empresa (LLC / Inc.)">
-                  <Input required placeholder="Acme LLC" className="bg-card/50 border-border h-11" />
-                </Field>
-                <Field label="Faturamento mensal aproximado">
-                  <Input required placeholder="$10k – $50k MRR" className="bg-card/50 border-border h-11" />
-                </Field>
-                <Field label="O que você vende?">
-                  <Textarea required rows={3} placeholder="Conta rápido sobre sua oferta e ticket médio" className="bg-card/50 border-border" />
-                </Field>
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="w-full bg-gradient-brand text-primary-foreground hover:opacity-90 font-semibold h-14 text-base shadow-[var(--glow-brand)]"
-                >
-                  Enviar aplicação <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-                <p className="text-xs text-muted-foreground text-center">Resposta em até 24 horas úteis.</p>
-              </>
-            )}
-          </form>
+            <Link to="/book-a-call">
+              Book your strategy session <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </Button>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+            <span className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-[oklch(0.74_0.18_50)]" /> No ad spend on you</span>
+            <span className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-[oklch(0.74_0.18_50)]" /> No retainer</span>
+            <span className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-[oklch(0.74_0.18_50)]" /> Launch in &lt; 7 days</span>
+          </div>
         </div>
       </div>
     </section>
-  );
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="space-y-1.5">
-      <Label className="text-xs uppercase tracking-widest text-muted-foreground">{label}</Label>
-      {children}
-    </div>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="border-t border-border/50 mt-12">
-      <div className="mx-auto max-w-7xl px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <img src={logo} alt="Aive" className="h-8 w-auto" />
-          <span className="text-sm text-muted-foreground">© {new Date().getFullYear()} Aive. All rights reserved.</span>
-        </div>
-        <div className="text-sm text-muted-foreground">Built for Brazilian founders in the US 🇧🇷 🇺🇸</div>
-      </div>
-    </footer>
   );
 }
