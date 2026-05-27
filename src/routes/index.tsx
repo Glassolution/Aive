@@ -66,19 +66,19 @@ function Hero() {
       >
         <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/50 px-4 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur">
           <span className="h-1.5 w-1.5 rounded-full bg-[oklch(0.74_0.18_50)] animate-pulse" />
-          Para brasileiros com LLC ou Inc. nos EUA
+          For Brazilian founders with US-based LLCs & Inc.s
         </div>
 
         <h1 className="mt-6 text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
-          6–8 clientes a mais por mês.
+          6–8 new clients per month.
           <br />
-          <span className="text-gradient-brand">Você só paga pelas calls.</span>
+          <span className="text-gradient-brand">You only pay per booked call.</span>
         </h1>
 
         <p className="mt-7 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          A Aive roda anúncios de alta conversão para empresas brasileiras nos EUA.
-          Sem ad spend do seu bolso. Sem mensalidade. Você paga apenas{" "}
-          <span className="text-foreground font-semibold">$127 por call agendada e qualificada</span>.
+          Aive runs high-converting paid ads for Brazilian-owned LLCs & Inc.s in the US.
+          No ad spend on you. No monthly retainer. You only pay{" "}
+          <span className="text-foreground font-semibold">$127 per qualified booked call</span>.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -87,9 +87,9 @@ function Hero() {
             size="lg"
             className="bg-gradient-brand text-primary-foreground hover:opacity-90 font-semibold h-14 px-8 text-base shadow-[var(--glow-brand)]"
           >
-            <a href="#book">
-              Quero receber 6–8 calls/mês <ArrowRight className="ml-2 h-5 w-5" />
-            </a>
+            <Link to="/book-a-call">
+              Book a strategy session <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
           </Button>
           <Button
             asChild
@@ -97,13 +97,13 @@ function Hero() {
             variant="outline"
             className="h-14 px-8 text-base border-border bg-card/30 hover:bg-card"
           >
-            <a href="#how">Como funciona</a>
+            <a href="#how">How it works</a>
           </Button>
         </div>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
-          <Badge icon={<ShieldCheck className="h-4 w-4" />} text="Sem risco de ad spend" />
-          <Badge icon={<Zap className="h-4 w-4" />} text="Launch em até 7 dias" />
+          <Badge icon={<ShieldCheck className="h-4 w-4" />} text="Zero ad spend risk" />
+          <Badge icon={<Zap className="h-4 w-4" />} text="Launch in < 7 days" />
           <Badge icon={<DollarSign className="h-4 w-4" />} text="Pay-per-result" />
         </div>
       </motion.div>
@@ -115,10 +115,10 @@ function Hero() {
         className="mt-20 mx-auto max-w-5xl"
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Stat n="6–8" label="novas calls/mês" />
-          <Stat n="$127" label="por call agendada" />
-          <Stat n="$0" label="ad spend do seu lado" />
-          <Stat n="<7d" label="para ir ao ar" />
+          <Stat n="6–8" label="new calls/month" />
+          <Stat n="$127" label="per booked call" />
+          <Stat n="$0" label="ad spend on you" />
+          <Stat n="<7d" label="to go live" />
         </div>
       </motion.div>
     </section>
