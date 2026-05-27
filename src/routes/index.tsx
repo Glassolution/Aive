@@ -248,20 +248,20 @@ function HowItWorks() {
 
 function Pricing() {
   const includes = [
-    "Estratégia de oferta + ICP",
-    "Criativos (vídeo + estático) ilimitados",
-    "Landing page de alta conversão",
-    "Setup de pixel, tracking e CRM",
-    "Gestão completa de Meta Ads & Google",
-    "Ad spend por nossa conta",
-    "Otimização semanal + reporting",
-    "Cobrança apenas em calls qualificadas",
+    "Offer + ICP strategy",
+    "Unlimited video & static creatives",
+    "High-converting landing page",
+    "Pixel, tracking & CRM setup",
+    "Full Meta Ads & Google management",
+    "Ad spend on us",
+    "Weekly optimization + reporting",
+    "Billed only for qualified booked calls",
   ];
   return (
     <section id="pricing" className="mx-auto max-w-5xl px-6 py-24">
       <div className="text-center">
         <p className="text-sm font-semibold uppercase tracking-widest text-[oklch(0.82_0.17_75)]">Pricing</p>
-        <h2 className="mt-4 text-4xl md:text-5xl font-bold">Um preço. Zero surpresa.</h2>
+        <h2 className="mt-4 text-4xl md:text-5xl font-bold">One price. Zero surprises.</h2>
       </div>
       <motion.div
         initial={{ opacity: 0, scale: 0.97 }}
@@ -278,18 +278,18 @@ function Pricing() {
             </div>
             <div className="mt-6 flex items-baseline gap-2">
               <span className="text-7xl md:text-8xl font-bold text-gradient-brand">$127</span>
-              <span className="text-muted-foreground">/ call agendada</span>
+              <span className="text-muted-foreground">/ booked call</span>
             </div>
             <p className="mt-5 text-muted-foreground leading-relaxed">
-              Sem mensalidade. Sem fee de setup. Sem ad spend do seu lado.
-              Se a call não aparecer na sua agenda, você não paga.
+              No monthly fee. No setup cost. No ad spend on you.
+              If the call doesn't land on your calendar, you don't pay.
             </p>
             <Button
               asChild
               size="lg"
               className="mt-8 bg-gradient-brand text-primary-foreground hover:opacity-90 font-semibold h-14 px-8 w-full md:w-auto shadow-[var(--glow-brand)]"
             >
-              <a href="#book">Começar agora <ArrowRight className="ml-2 h-5 w-5" /></a>
+              <Link to="/book-a-call">Book a strategy session <ArrowRight className="ml-2 h-5 w-5" /></Link>
             </Button>
           </div>
           <ul className="space-y-3">
