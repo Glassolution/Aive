@@ -1,11 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { useState } from "react";
-import logo from "@/assets/aive-logo.png";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { Nav } from "@/components/site/Nav";
+import { Footer } from "@/components/site/Footer";
+import { AmbientGlow } from "@/components/site/AmbientGlow";
 import {
   ArrowRight,
   CheckCircle2,
@@ -53,36 +52,6 @@ function Index() {
       <CTA />
       <Footer />
     </div>
-  );
-}
-
-function AmbientGlow() {
-  return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div className="absolute -top-40 left-1/2 h-[600px] w-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,oklch(0.74_0.18_50/0.25),transparent)] blur-3xl" />
-      <div className="absolute bottom-0 right-0 h-[500px] w-[500px] rounded-full bg-[radial-gradient(closest-side,oklch(0.62_0.22_30/0.18),transparent)] blur-3xl" />
-    </div>
-  );
-}
-
-function Nav() {
-  return (
-    <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/50">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <a href="#top" className="flex items-center gap-2">
-          <img src={logo} alt="Aive" className="h-9 w-auto" />
-        </a>
-        <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-          <a href="#how" className="hover:text-foreground transition">How it works</a>
-          <a href="#pricing" className="hover:text-foreground transition">Pricing</a>
-          <a href="#results" className="hover:text-foreground transition">Results</a>
-          <a href="#faq" className="hover:text-foreground transition">FAQ</a>
-        </nav>
-        <Button asChild className="bg-gradient-brand text-primary-foreground hover:opacity-90 font-semibold">
-          <a href="#book">Book a call <ArrowRight className="ml-1 h-4 w-4" /></a>
-        </Button>
-      </div>
-    </header>
   );
 }
 
