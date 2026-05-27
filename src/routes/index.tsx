@@ -144,11 +144,11 @@ function Stat({ n, label }: { n: string; label: string }) {
 }
 
 function LogoStrip() {
-  const items = ["LLC owners", "Inc. founders", "Coaches", "Agências", "Consultorias", "E-commerce"];
+  const items = ["LLC owners", "Inc. founders", "Coaches", "Agencies", "Consultants", "E-commerce"];
   return (
     <section className="border-y border-border/50 bg-card/20">
       <div className="mx-auto max-w-7xl px-6 py-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm text-muted-foreground">
-        <span className="uppercase tracking-widest text-xs">Quem atendemos:</span>
+        <span className="uppercase tracking-widest text-xs">Who we serve:</span>
         {items.map((i) => (
           <span key={i} className="font-medium text-foreground/70">{i}</span>
         ))}
