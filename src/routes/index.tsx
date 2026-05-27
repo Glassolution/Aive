@@ -159,10 +159,10 @@ function LogoStrip() {
 
 function Problem() {
   const pains = [
-    "Você abriu sua LLC ou Inc. mas o pipeline está vazio.",
-    "Já queimou milhares em ad spend sem ver retorno.",
-    "Agências cobram retainer alto e não entregam calls.",
-    "Está dependendo só de indicação e DM no Instagram.",
+    "You opened your LLC or Inc. but the pipeline is dry.",
+    "You've burned thousands in ad spend with nothing to show for it.",
+    "Agencies charge fat retainers and still don't deliver booked calls.",
+    "You're stuck relying on referrals and cold DMs.",
   ];
   return (
     <section className="mx-auto max-w-7xl px-6 py-24">
@@ -197,31 +197,31 @@ function HowItWorks() {
     {
       icon: <Target className="h-6 w-6" />,
       title: "1. Strategy call",
-      body: "Mapeamos sua oferta, ICP e o ângulo que vai escalar no mercado americano.",
+      body: "We map your offer, ICP and the angle that will scale in the US market.",
     },
     {
       icon: <Rocket className="h-6 w-6" />,
-      title: "2. Launch em <7 dias",
-      body: "Criativos, copy, landing e tracking — tudo pronto. A gente coloca no ar.",
+      title: "2. Launch in < 7 days",
+      body: "Creatives, copy, landing page, tracking — all built and live in under a week.",
     },
     {
       icon: <Globe2 className="h-6 w-6" />,
-      title: "3. Nós pagamos o ad spend",
-      body: "Você não coloca um dólar em mídia. O risco é todo nosso.",
+      title: "3. We cover ad spend",
+      body: "You don't put a dollar into media. The risk is entirely on us.",
     },
     {
       icon: <CalendarCheck className="h-6 w-6" />,
-      title: "4. Calls aparecem na sua agenda",
-      body: "Leads qualificados agendam direto. Você paga $127 por call que aparece.",
+      title: "4. Calls hit your calendar",
+      body: "Qualified leads book directly. You pay $127 per call that actually shows up.",
     },
   ];
   return (
     <section id="how" className="mx-auto max-w-7xl px-6 py-24">
       <div className="text-center max-w-2xl mx-auto">
-        <p className="text-sm font-semibold uppercase tracking-widest text-[oklch(0.82_0.17_75)]">Como funciona</p>
-        <h2 className="mt-4 text-4xl md:text-5xl font-bold">Um modelo diferente de agência.</h2>
+        <p className="text-sm font-semibold uppercase tracking-widest text-[oklch(0.82_0.17_75)]">How it works</p>
+        <h2 className="mt-4 text-4xl md:text-5xl font-bold">A different kind of agency model.</h2>
         <p className="mt-5 text-lg text-muted-foreground">
-          Sem retainer. Sem fee de setup. Sem ad spend. Você só paga pelo resultado final: uma call agendada.
+          No retainer. No setup fee. No ad spend on you. You only pay for the end result: a booked call.
         </p>
       </div>
       <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
