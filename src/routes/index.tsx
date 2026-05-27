@@ -168,15 +168,15 @@ function Problem() {
     <section className="mx-auto max-w-7xl px-6 py-24">
       <div className="grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-widest text-[oklch(0.82_0.17_75)]">O problema</p>
+          <p className="text-sm font-semibold uppercase tracking-widest text-[oklch(0.82_0.17_75)]">The problem</p>
           <h2 className="mt-4 text-4xl md:text-5xl font-bold">
-            Brasileiro com empresa nos EUA<br />
-            <span className="text-muted-foreground">e agenda vazia.</span>
+            US company set up.<br />
+            <span className="text-muted-foreground">Calendar empty.</span>
           </h2>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-            Você fez a parte difícil — abriu a empresa, tem o produto, tem oferta.
-            Mas tráfego pago no mercado americano sem um time que entende conversão é
-            queimar dinheiro com Mark Zuckerberg.
+            You did the hard part — opened your LLC or Inc., built the offer, lined up the product.
+            But running paid ads in the US without a team who actually understands conversion
+            is just burning money on Meta and Google.
           </p>
         </div>
         <div className="space-y-3">
