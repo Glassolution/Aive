@@ -9,11 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WelcomeRouteImport } from './routes/welcome'
 import { Route as PreCallRouteImport } from './routes/pre-call'
 import { Route as BookACallRouteImport } from './routes/book-a-call'
+import { Route as BookRouteImport } from './routes/book'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicCalendlyDiagRouteImport } from './routes/api/public/calendly-diag'
 
+const WelcomeRoute = WelcomeRouteImport.update({
+  id: '/welcome',
+  path: '/welcome',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PreCallRoute = PreCallRouteImport.update({
   id: '/pre-call',
   path: '/pre-call',
@@ -22,6 +29,11 @@ const PreCallRoute = PreCallRouteImport.update({
 const BookACallRoute = BookACallRouteImport.update({
   id: '/book-a-call',
   path: '/book-a-call',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookRoute = BookRouteImport.update({
+  id: '/book',
+  path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -37,45 +49,74 @@ const ApiPublicCalendlyDiagRoute = ApiPublicCalendlyDiagRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
   '/book-a-call': typeof BookACallRoute
   '/pre-call': typeof PreCallRoute
+  '/welcome': typeof WelcomeRoute
   '/api/public/calendly-diag': typeof ApiPublicCalendlyDiagRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
   '/book-a-call': typeof BookACallRoute
   '/pre-call': typeof PreCallRoute
+  '/welcome': typeof WelcomeRoute
   '/api/public/calendly-diag': typeof ApiPublicCalendlyDiagRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
   '/book-a-call': typeof BookACallRoute
   '/pre-call': typeof PreCallRoute
+  '/welcome': typeof WelcomeRoute
   '/api/public/calendly-diag': typeof ApiPublicCalendlyDiagRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/book-a-call' | '/pre-call' | '/api/public/calendly-diag'
+  fullPaths:
+    | '/'
+    | '/book'
+    | '/book-a-call'
+    | '/pre-call'
+    | '/welcome'
+    | '/api/public/calendly-diag'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/book-a-call' | '/pre-call' | '/api/public/calendly-diag'
+  to:
+    | '/'
+    | '/book'
+    | '/book-a-call'
+    | '/pre-call'
+    | '/welcome'
+    | '/api/public/calendly-diag'
   id:
     | '__root__'
     | '/'
+    | '/book'
     | '/book-a-call'
     | '/pre-call'
+    | '/welcome'
     | '/api/public/calendly-diag'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BookRoute: typeof BookRoute
   BookACallRoute: typeof BookACallRoute
   PreCallRoute: typeof PreCallRoute
+  WelcomeRoute: typeof WelcomeRoute
   ApiPublicCalendlyDiagRoute: typeof ApiPublicCalendlyDiagRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/welcome': {
+      id: '/welcome'
+      path: '/welcome'
+      fullPath: '/welcome'
+      preLoaderRoute: typeof WelcomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pre-call': {
       id: '/pre-call'
       path: '/pre-call'
@@ -88,6 +129,13 @@ declare module '@tanstack/react-router' {
       path: '/book-a-call'
       fullPath: '/book-a-call'
       preLoaderRoute: typeof BookACallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book': {
+      id: '/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -109,8 +157,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BookRoute: BookRoute,
   BookACallRoute: BookACallRoute,
   PreCallRoute: PreCallRoute,
+  WelcomeRoute: WelcomeRoute,
   ApiPublicCalendlyDiagRoute: ApiPublicCalendlyDiagRoute,
 }
 export const routeTree = rootRouteImport

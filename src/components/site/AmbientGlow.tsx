@@ -1,8 +1,7 @@
 export function AmbientGlow() {
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div className="absolute -top-40 left-1/2 h-[600px] w-[900px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,oklch(0.74_0.18_50/0.25),transparent)] blur-3xl" />
-      <div className="absolute bottom-0 right-0 h-[500px] w-[500px] rounded-full bg-[radial-gradient(closest-side,oklch(0.62_0.22_30/0.18),transparent)] blur-3xl" />
+    <div className="pointer-events-none absolute right-0 top-0 -z-10 h-[34rem] w-[48rem] max-w-full overflow-hidden">
+      <div className="absolute -right-32 -top-44 h-[34rem] w-[42rem] rounded-full bg-[radial-gradient(closest-side,oklch(0.9_0.065_256/0.65),oklch(0.94_0.045_294/0.34)_45%,transparent_74%)] blur-3xl" />
     </div>
   );
 }
