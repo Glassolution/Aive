@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 
-const VIDEO_EMBED_URL = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+const VIDALYTICS_EMBED_ID = "vidalytics_embed_HxbVuctOb8mY2vag";
+const VIDALYTICS_SCRIPT_ID = "vidalytics-loader-HxbVuctOb8mY2vag";
 
 export const Route = createFileRoute("/pre-call")({
   component: PreCallPage,
@@ -18,10 +20,48 @@ export const Route = createFileRoute("/pre-call")({
   }),
 });
 
+function VidalyticsEmbed() {
+  useEffect(() => {
+    const existingScript = document.getElementById(VIDALYTICS_SCRIPT_ID);
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    const script = document.createElement("script");
+    script.id = VIDALYTICS_SCRIPT_ID;
+    script.type = "text/javascript";
+    script.text = `
+(function (v, i, d, a, l, y, t, c, s) {
+    y='_'+d.toLowerCase();c=d+'L';if(!v[d]){v[d]={};}if(!v[c]){v[c]={};}if(!v[y]){v[y]={};}var vl='Loader',vli=v[y][vl],vsl=v[c][vl + 'Script'],vlf=v[c][vl + 'Loaded'],ve='Embed';
+    if (!vsl){vsl=function(u,cb){
+        if(t){cb();return;}s=i.createElement("script");s.type="text/javascript";s.async=1;s.src=u;
+        if(s.readyState){s.onreadystatechange=function(){if(s.readyState==="loaded"||s.readyState=="complete"){s.onreadystatechange=null;vlf=1;cb();}};}else{s.onload=function(){vlf=1;cb();};}
+        i.getElementsByTagName("head")[0].appendChild(s);
+    };}
+    vsl(l+'loader.min.js',function(){if(!vli){var vlc=v[c][vl];vli=new vlc();}vli.loadScript(l+'player.min.js',function(){var vec=v[d][ve];t=new vec();t.run(a);});});
+})(window, document, 'Vidalytics', '${VIDALYTICS_EMBED_ID}', 'https://fast.vidalytics.com/embeds/oidCbfeH/HxbVuctOb8mY2vag/');
+`;
+
+    document.body.appendChild(script);
+
+    return () => {
+      script.remove();
+    };
+  }, []);
+
+  return (
+    <div
+      id={VIDALYTICS_EMBED_ID}
+      className="w-full"
+      style={{ width: "100%", position: "relative", paddingTop: "56.25%" }}
+    />
+  );
+}
+
 function PreCallPage() {
   const prepCards = [
     {
-      title: "Assista o video completo",
+      title: "Assista o vídeo completo",
       description:
         "São apenas alguns minutos. Fizemos isso para não desperdiçar seu tempo na call.",
     },
@@ -55,17 +95,9 @@ function PreCallPage() {
           </p>
         </section>
 
-        <section className="mx-auto mt-10 max-w-5xl">
+        <section className="mx-auto mt-10 w-full max-w-[900px]">
           <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm shadow-black/[0.04]">
-            <div className="relative aspect-video w-full bg-black">
-              <iframe
-                src={VIDEO_EMBED_URL}
-                title="Vídeo pre-call da Aive"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                className="absolute inset-0 h-full w-full"
-              />
-            </div>
+            <VidalyticsEmbed />
           </div>
         </section>
 
