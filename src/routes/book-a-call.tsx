@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect } from "react";
 import { CheckCircle2, ShieldCheck, Zap, DollarSign, ArrowRight } from "lucide-react";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { AmbientGlow } from "@/components/site/AmbientGlow";
+import { notifyBooking } from "@/lib/calendly.functions";
 
 // Real Aive Calendly link.
 const CALENDLY_URL = "https://calendly.com/lucassrby";
@@ -28,6 +30,8 @@ export const Route = createFileRoute("/book-a-call")({
 });
 
 function BookACallPage() {
+  const notify = useServerFn(notifyBooking);
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://assets.calendly.com/assets/external/widget.js";
@@ -37,6 +41,29 @@ function BookACallPage() {
       script.remove();
     };
   }, []);
+
+  // Listen for the Calendly "event_scheduled" message and forward the booking
+  // details to our server function (which calls Zapier).
+  useEffect(() => {
+    function handleMessage(e: MessageEvent) {
+      if (e.origin !== "https://calendly.com") return;
+      const data = e.data as
+        | { event?: string; payload?: { event?: { uri?: string }; invitee?: { uri?: string } } }
+        | undefined;
+      if (data?.event !== "calendly.event_scheduled") return;
+
+      const eventUri = data.payload?.event?.uri;
+      const inviteeUri = data.payload?.invitee?.uri;
+      if (!eventUri || !inviteeUri) return;
+
+      notify({ data: { eventUri, inviteeUri } }).catch((err) =>
+        console.error("Failed to forward booking to Zapier:", err),
+      );
+    }
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, [notify]);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
