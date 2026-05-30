@@ -10,11 +10,11 @@ export const Route = createFileRoute("/pre-call")({
   component: PreCallPage,
   head: () => ({
     meta: [
-      { title: "Assista Antes da Call - Aive" },
+      { title: "Assista Antes da Chamada - Aive" },
       {
         name: "description",
         content:
-          "Assista ao vídeo antes da sua call com a Aive para entender o processo e chegar preparado.",
+          "Assista ao vídeo antes da sua chamada com a Aive para entender o processo e chegar preparado.",
       },
     ],
   }),
@@ -63,11 +63,12 @@ function PreCallPage() {
     {
       title: "Assista o vídeo completo",
       description:
-        "São apenas alguns minutos. Fizemos isso para não desperdiçar seu tempo na call.",
+        "São apenas alguns minutos. Fizemos isso para não desperdiçar seu tempo na chamada.",
     },
     {
       title: "Tenha seus números em mãos",
-      description: "Área de atendimento, tamanho médio dos jobs e quantidade de clientes por mês.",
+      description:
+        "Área de atendimento, tamanho médio dos serviços e quantidade de clientes por mês.",
     },
     {
       title: "Entre 2 minutos antes",
@@ -86,12 +87,12 @@ function PreCallPage() {
           </div>
 
           <h1 className="mt-6 text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-[2.75rem]">
-            Assista a este <span className="text-[#FF6B00]">vídeo</span> antes da nossa call.
+            Assista a este <span className="text-[#FF6B00]">vídeo</span> antes da nossa chamada.
           </h1>
 
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
             Este vídeo explica exatamente como a Aive funciona, o que esperar e as perguntas que
-            abordaremos na call — para que possamos pular o básico e mergulhar nos seus números.
+            abordaremos na chamada — para que possamos pular o básico e mergulhar nos seus números.
           </p>
         </section>
 

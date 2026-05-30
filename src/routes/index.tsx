@@ -11,16 +11,17 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Aive — 6–8 Booked Calls/Month for US-Based Brazilian Founders" },
+      { title: "Aive — 6–8 chamadas agendadas por mês para fundadores brasileiros nos EUA" },
       {
         name: "description",
         content:
-          "Aive runs high-converting paid ads for Brazilian-owned LLCs & Inc.s in the US. Pay only per booked qualified call — $127. No ad spend on you.",
+          "Aive roda anúncios pagos de alta conversão para LLCs e Inc.s de brasileiros nos EUA. Você paga apenas por chamada qualificada agendada — $127. Sem investimento em anúncios por sua conta.",
       },
-      { property: "og:title", content: "Aive — Pay-Per-Call Growth for US Brazilian Founders" },
+      { property: "og:title", content: "Aive — Crescimento pago por chamada para brasileiros nos EUA" },
       {
         property: "og:description",
-        content: "6–8 extra booked calls/month. $127 per qualified call. Zero ad spend risk.",
+        content:
+          "6–8 chamadas extras agendadas por mês. $127 por chamada qualificada. Zero risco com investimento em anúncios.",
       },
     ],
   }),
@@ -53,19 +54,21 @@ function Hero() {
           transition={{ duration: 0.65 }}
         >
           <p className="text-xs font-medium text-muted-foreground">
-            For Brazilian founders with US-based LLCs & Inc.s
+            Para fundadores brasileiros com LLCs e Inc.s nos EUA
           </p>
 
           <h1 className="mt-5 max-w-lg text-[2.45rem] font-medium leading-[1.08] tracking-tight text-foreground sm:text-[2.75rem] md:text-[3rem]">
-            6–8 new clients per month.
+            6–8 novos clientes por mês.
             <br />
-            You only pay <span className="font-normal italic">per booked call.</span>
+            Você só paga <span className="font-normal italic">por chamada agendada.</span>
           </h1>
 
           <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">
-            Aive runs high-converting paid ads for Brazilian-owned LLCs & Inc.s in the US. No ad
-            spend on you. No monthly retainer. You only pay{" "}
-            <span className="font-medium text-foreground">$127 per qualified booked call</span>.
+            Aive roda anúncios pagos de alta conversão para LLCs e Inc.s de brasileiros nos EUA.
+            Sem investimento em anúncios por sua conta. Sem mensalidade fixa. Você paga apenas{" "}
+            <span className="font-medium text-foreground">
+              $127 por chamada qualificada agendada
+            </span>
           </p>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
@@ -74,7 +77,7 @@ function Hero() {
               size="lg"
               className="h-10 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground shadow-[var(--glow-brand)] hover:bg-primary/90"
             >
-              <Link to="/book-a-call">Book a strategy session</Link>
+              <Link to="/book-a-call">Agendar sessão</Link>
             </Button>
             <Button
               asChild
@@ -82,7 +85,7 @@ function Hero() {
               variant="outline"
               className="h-10 rounded-lg border-border bg-card px-5 text-sm font-medium text-foreground shadow-none hover:bg-muted"
             >
-              <a href="#how">How it works</a>
+              <a href="#how">Como funciona</a>
             </Button>
           </div>
         </motion.div>
@@ -106,14 +109,14 @@ function DashboardPreview() {
         <div className="relative overflow-hidden rounded-2xl border border-white/90 shadow-[0_22px_60px_-30px_oklch(0.34_0.06_255/0.34)]">
           <img
             src={roofingHeroPhoto}
-            alt="Professional roofing crew installing shingles on a residential roof"
+            alt="Equipe profissional de telhados instalando telhas em um telhado residencial"
             className="aspect-[3/2] w-full object-cover object-center"
           />
           <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/10 to-transparent" />
           <div className="absolute inset-x-5 bottom-4 flex justify-center sm:inset-x-8">
             <DashboardMetric
               value="$127"
-              title="Por call agendada."
+              title="Por chamada agendada."
               subtitle="Sem retenção. Sem contratos. Sem gasto com publicidade."
             />
           </div>
@@ -148,11 +151,18 @@ function DashboardMetric({
 }
 
 function LogoStrip() {
-  const items = ["LLC owners", "Inc. founders", "Coaches", "Agencies", "Consultants", "E-commerce"];
+  const items = [
+    "Donos de LLC",
+    "Fundadores de Inc.",
+    "Mentores",
+    "Agências",
+    "Consultores",
+    "Comércio eletrônico",
+  ];
   return (
     <section className="border-y border-border/65 bg-card">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-9 gap-y-3 px-5 py-5 text-sm text-muted-foreground sm:px-6">
-        <span className="uppercase tracking-widest text-xs">Who we serve:</span>
+        <span className="uppercase tracking-widest text-xs">Quem atendemos:</span>
         {items.map((i) => (
           <span key={i} className="font-medium text-foreground/70">
             {i}
@@ -165,25 +175,25 @@ function LogoStrip() {
 
 function Problem() {
   const pains = [
-    "You opened your LLC or Inc. but the pipeline is dry.",
-    "You've burned thousands in ad spend with nothing to show for it.",
-    "Agencies charge fat retainers and still don't deliver booked calls.",
-    "You're stuck relying on referrals and cold DMs.",
+    "Você abriu sua LLC ou Inc., mas o pipeline está parado.",
+    "Você já queimou milhares em investimento em anúncios sem resultado real para mostrar.",
+    "Agências cobram mensalidades pesadas e ainda não entregam chamadas agendadas.",
+    "Você continua dependendo de indicações e mensagens frias.",
   ];
   return (
     <section className="py-14 md:py-16">
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-            The problem
+            O problema
           </p>
           <h2 className="mt-3 text-2xl font-medium md:text-[2rem]">
-            US company set up. <span className="text-muted-foreground">Calendar empty.</span>
+            Empresa aberta nos EUA. <span className="text-muted-foreground">Calendário vazio.</span>
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            You did the hard part — opened your LLC or Inc., built the offer, lined up the product.
-            But running paid ads in the US without a team who actually understands conversion is
-            just burning money on Meta and Google.
+            Você fez a parte difícil — abriu sua LLC ou Inc., construiu a oferta e preparou o
+            produto. Mas rodar anúncios pagos nos EUA sem uma equipe que realmente entende
+            conversão é só queimar dinheiro no Meta e no Google.
           </p>
         </div>
         <div className="mt-10 grid gap-3 md:grid-cols-2">
@@ -208,35 +218,35 @@ function HowItWorks() {
   const steps = [
     {
       icon: <Target className="h-6 w-6" />,
-      title: "1. Strategy call",
-      body: "We map your offer, ICP and the angle that will scale in the US market.",
+      title: "1. Sessão de estratégia",
+      body: "Mapeamos sua oferta, perfil de cliente ideal e o ângulo com potencial de escalar no mercado americano.",
     },
     {
       icon: <Rocket className="h-6 w-6" />,
-      title: "2. Launch in < 7 days",
-      body: "Creatives, copy, landing page, tracking — all built and live in under a week.",
+      title: "2. Lançamento em < 7 dias",
+      body: "Criativos, texto de venda, página de captura e rastreamento — tudo construído e no ar em menos de uma semana.",
     },
     {
       icon: <Globe2 className="h-6 w-6" />,
-      title: "3. We cover ad spend",
-      body: "You don't put a dollar into media. The risk is entirely on us.",
+      title: "3. Nós cobrimos o investimento em anúncios",
+      body: "Você não coloca um dólar em mídia. O risco fica totalmente por nossa conta.",
     },
     {
       icon: <CalendarCheck className="h-6 w-6" />,
-      title: "4. Calls hit your calendar",
-      body: "Qualified leads book directly. You pay $127 per call that actually shows up.",
+      title: "4. Chamadas entram no seu calendário",
+      body: "Leads qualificados agendam direto com você. Você paga $127 por chamada que realmente aparece.",
     },
   ];
   return (
     <section id="how" className="mx-auto max-w-6xl px-5 py-14 sm:px-6 md:py-16">
       <div className="text-center max-w-2xl mx-auto">
-        <p className="text-xs font-semibold uppercase tracking-widest text-primary">How it works</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary">Como funciona</p>
         <h2 className="mt-3 text-2xl font-medium md:text-[2rem]">
-          A different kind of agency model.
+          Um modelo de agência diferente.
         </h2>
         <p className="mt-4 text-base text-muted-foreground">
-          No retainer. No setup fee. No ad spend on you. You only pay for the end result: a booked
-          call.
+          Sem mensalidade. Sem taxa de configuração. Sem investimento em anúncios por sua conta.
+          Você só paga pelo resultado final: uma chamada agendada.
         </p>
       </div>
       <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -263,20 +273,20 @@ function HowItWorks() {
 
 function Pricing() {
   const includes = [
-    "Offer + ICP strategy",
-    "Unlimited video & static creatives",
-    "High-converting landing page",
-    "Pixel, tracking & CRM setup",
-    "Full Meta Ads & Google management",
-    "Ad spend on us",
-    "Weekly optimization + reporting",
-    "Billed only for qualified booked calls",
+    "Estratégia de oferta + perfil de cliente ideal",
+    "Criativos em vídeo e estáticos ilimitados",
+    "Landing page de alta conversão",
+    "Pixel, rastreamento e configuração do CRM",
+    "Gestão completa de Meta Ads e Google",
+    "Investimento em anúncios por nossa conta",
+    "Otimização semanal + relatórios",
+    "Cobrança apenas por chamadas qualificadas agendadas",
   ];
   return (
     <section id="pricing" className="mx-auto max-w-5xl px-5 py-14 sm:px-6 md:py-16">
       <div className="text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-primary">Pricing</p>
-        <h2 className="mt-3 text-2xl font-medium md:text-[2rem]">One price. Zero surprises.</h2>
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary">Preço</p>
+        <h2 className="mt-3 text-2xl font-medium md:text-[2rem]">Um preço. Zero surpresas.</h2>
       </div>
       <motion.div
         initial={{ opacity: 0, scale: 0.97 }}
@@ -288,22 +298,22 @@ function Pricing() {
         <div className="relative grid items-center gap-9 md:grid-cols-2">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-primary">
-              <Sparkles className="h-3.5 w-3.5" /> PAY-PER-CALL
+              <Sparkles className="h-3.5 w-3.5" /> PAGUE POR CHAMADA
             </div>
             <div className="mt-5 flex items-baseline gap-2">
               <span className="text-4xl font-medium text-foreground md:text-[2.75rem]">$127</span>
-              <span className="text-muted-foreground">/ booked call</span>
+              <span className="text-muted-foreground">/ chamada agendada</span>
             </div>
             <p className="mt-5 text-muted-foreground leading-relaxed">
-              No monthly fee. No setup cost. No ad spend on you. If the call doesn't land on your
-              calendar, you don't pay.
+              Sem mensalidade. Sem custo de configuração. Sem investimento em anúncios por sua
+              conta. Se a chamada não cair no seu calendário, você não paga.
             </p>
             <Button
               asChild
               size="lg"
               className="mt-7 h-10 w-full rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground shadow-[var(--glow-brand)] hover:bg-primary/90 md:w-auto"
             >
-              <Link to="/book-a-call">Book a strategy session</Link>
+              <Link to="/book-a-call">Agendar sessão</Link>
             </Button>
           </div>
           <ul className="space-y-3">
@@ -324,31 +334,31 @@ function Results() {
   const cases = [
     {
       name: "Lucas R.",
-      role: "English coach — LLC, FL",
-      quote: "11 qualified calls in 3 weeks. Closed 4. Pays for itself and then some.",
-      metric: "+11 calls / 21d",
+      role: "Coach de inglês — LLC, FL",
+      quote: "11 chamadas qualificadas em 3 semanas. Fechei 4. Se paga sozinho e ainda sobra.",
+      metric: "+11 chamadas / 21 dias",
     },
     {
       name: "Marina P.",
-      role: "Consulting — Inc., DE",
+      role: "Consultoria — Inc., DE",
       quote:
-        "I was bleeding $3k/mo on a retainer agency for nothing. Aive delivered 7 calls in month one without me spending a cent on ads.",
-      metric: "7 calls / month 1",
+        "Eu estava perdendo $3k/mês com uma agência de mensalidade fixa sem retorno. A Aive entregou 7 chamadas no primeiro mês sem eu gastar um centavo em anúncios.",
+      metric: "7 chamadas / mês 1",
     },
     {
       name: "Rafael M.",
       role: "SMMA — LLC, WY",
       quote:
-        "Incentives fully aligned. They only win if I win. 4 months in and they keep hitting the number.",
-      metric: "8 calls/mo avg",
+        "Incentivos totalmente alinhados. Eles só ganham se eu ganho. Já são 4 meses e continuam batendo a meta.",
+      metric: "8 chamadas/mês em média",
     },
   ];
   return (
     <section id="results" className="mx-auto max-w-6xl px-5 py-14 sm:px-6 md:py-16">
       <div className="text-center max-w-2xl mx-auto">
-        <p className="text-xs font-semibold uppercase tracking-widest text-primary">Results</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary">Resultados</p>
         <h2 className="mt-3 text-2xl font-medium md:text-[2rem]">
-          Brazilian founders scaling in the US with Aive.
+          Fundadores brasileiros escalando nos EUA com a Aive.
         </h2>
       </div>
       <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -375,35 +385,37 @@ function Results() {
 function FAQ() {
   const items = [
     {
-      q: "How exactly do you charge $127 per call?",
-      a: "You're billed only when a qualified lead books a call on your calendar. No booking, no charge.",
+      q: "Como exatamente vocês cobram $127 por chamada?",
+      a: "Você só é cobrado quando um lead qualificado agenda uma chamada no seu calendário. Sem agendamento, sem cobrança.",
     },
     {
-      q: "Do I have to pay ad spend?",
-      a: "No. We cover 100% of the media spend. That's our risk — we only win when we deliver calls.",
+      q: "Eu preciso pagar o investimento em anúncios?",
+      a: "Não. Nós cobrimos 100% do investimento em mídia. Esse risco é nosso — nós só ganhamos quando entregamos chamadas.",
     },
     {
-      q: "How fast do you launch?",
-      a: "Live in under 7 days after onboarding. Creatives, copy, landing page and tracking are built by our team.",
+      q: "Em quanto tempo vocês lançam?",
+      a: "Entramos no ar em menos de 7 dias após a integração inicial. Criativos, texto de venda, página de captura e rastreamento são construídos pela nossa equipe.",
     },
     {
-      q: "Does it work for any niche?",
-      a: "We work with Brazilian-owned LLCs and Inc.s in the US — primarily coaches, agencies, consulting and B2B services.",
+      q: "Funciona para qualquer nicho?",
+      a: "Trabalhamos com LLCs e Inc.s de brasileiros nos EUA — principalmente coaches, agências, consultorias e serviços B2B.",
     },
     {
-      q: "What if a call isn't qualified?",
-      a: "Calls that don't meet the criteria agreed at kickoff are not billed. We define this together before launch.",
+      q: "E se uma chamada não for qualificada?",
+      a: "Chamadas que não atendem aos critérios combinados no início não são cobradas. Definimos isso juntos antes do lançamento.",
     },
     {
-      q: "Any long-term contract?",
-      a: "No lock-in. Month-to-month. If we're not delivering, you walk.",
+      q: "Existe contrato de longo prazo?",
+      a: "Não há fidelidade. É mês a mês. Se não estivermos entregando, você sai.",
     },
   ];
   return (
     <section id="faq" className="mx-auto max-w-3xl px-5 py-14 sm:px-6 md:py-16">
       <div className="text-center">
-        <p className="text-xs font-semibold uppercase tracking-widest text-primary">FAQ</p>
-        <h2 className="mt-3 text-2xl font-medium md:text-[2rem]">Frequently asked questions.</h2>
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+          Perguntas frequentes
+        </p>
+        <h2 className="mt-3 text-2xl font-medium md:text-[2rem]">Perguntas frequentes.</h2>
       </div>
       <div className="mt-9 space-y-3">
         {items.map((it, i) => (
@@ -440,30 +452,30 @@ function CTA() {
       <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 text-center shadow-sm shadow-black/[0.04] md:p-11">
         <div className="mx-auto max-w-2xl">
           <h2 className="text-2xl font-medium leading-tight md:text-[2rem]">
-            Ready to fill your calendar
+            Pronto para preencher seu calendário
             <br />
-            <span className="italic">with qualified calls?</span>
+            <span className="italic">com chamadas qualificadas?</span>
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            Book a free strategy session. If we're a fit, we launch your ads in under 7 days — and
-            you don't pay a dollar until calls land on your calendar.
+            Agende uma sessão estratégica gratuita. Se fizer sentido, lançamos seus anúncios em
+            menos de 7 dias — e você não paga um dólar até as chamadas caírem no seu calendário.
           </p>
           <Button
             asChild
             size="lg"
             className="mt-8 h-10 rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground shadow-[var(--glow-brand)] hover:bg-primary/90"
           >
-            <Link to="/book-a-call">Book your strategy session</Link>
+            <Link to="/book-a-call">Agendar sessão estratégica</Link>
           </Button>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
             <span className="inline-flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-primary" /> No ad spend on you
+              <CheckCircle2 className="h-4 w-4 text-primary" /> Sem investimento em anúncios por sua conta
             </span>
             <span className="inline-flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-primary" /> No retainer
+              <CheckCircle2 className="h-4 w-4 text-primary" /> Sem mensalidade fixa
             </span>
             <span className="inline-flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-primary" /> Launch in &lt; 7 days
+              <CheckCircle2 className="h-4 w-4 text-primary" /> Lançamento em &lt; 7 dias
             </span>
           </div>
         </div>
