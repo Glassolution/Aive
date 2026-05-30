@@ -5,8 +5,8 @@ import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { AmbientGlow } from "@/components/site/AmbientGlow";
 
-// Replace with the real Aive Calendly link when ready.
-const CALENDLY_URL = "https://calendly.com/aive-agency/strategy-session";
+// Real Aive Calendly link.
+const CALENDLY_URL = "https://calendly.com/lucassrby";
 
 export const Route = createFileRoute("/book-a-call")({
   component: BookACallPage,
