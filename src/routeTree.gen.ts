@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PreCallRouteImport } from './routes/pre-call'
 import { Route as BookACallRouteImport } from './routes/book-a-call'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicCalendlyDiagRouteImport } from './routes/api/public/calendly-diag'
 
 const PreCallRoute = PreCallRouteImport.update({
   id: '/pre-call',
@@ -28,35 +29,49 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCalendlyDiagRoute = ApiPublicCalendlyDiagRouteImport.update({
+  id: '/api/public/calendly-diag',
+  path: '/api/public/calendly-diag',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/book-a-call': typeof BookACallRoute
   '/pre-call': typeof PreCallRoute
+  '/api/public/calendly-diag': typeof ApiPublicCalendlyDiagRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/book-a-call': typeof BookACallRoute
   '/pre-call': typeof PreCallRoute
+  '/api/public/calendly-diag': typeof ApiPublicCalendlyDiagRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/book-a-call': typeof BookACallRoute
   '/pre-call': typeof PreCallRoute
+  '/api/public/calendly-diag': typeof ApiPublicCalendlyDiagRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/book-a-call' | '/pre-call'
+  fullPaths: '/' | '/book-a-call' | '/pre-call' | '/api/public/calendly-diag'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/book-a-call' | '/pre-call'
-  id: '__root__' | '/' | '/book-a-call' | '/pre-call'
+  to: '/' | '/book-a-call' | '/pre-call' | '/api/public/calendly-diag'
+  id:
+    | '__root__'
+    | '/'
+    | '/book-a-call'
+    | '/pre-call'
+    | '/api/public/calendly-diag'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookACallRoute: typeof BookACallRoute
   PreCallRoute: typeof PreCallRoute
+  ApiPublicCalendlyDiagRoute: typeof ApiPublicCalendlyDiagRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +97,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/calendly-diag': {
+      id: '/api/public/calendly-diag'
+      path: '/api/public/calendly-diag'
+      fullPath: '/api/public/calendly-diag'
+      preLoaderRoute: typeof ApiPublicCalendlyDiagRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,7 +111,18 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookACallRoute: BookACallRoute,
   PreCallRoute: PreCallRoute,
+  ApiPublicCalendlyDiagRoute: ApiPublicCalendlyDiagRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
