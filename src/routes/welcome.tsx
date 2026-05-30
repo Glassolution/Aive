@@ -69,7 +69,7 @@ function WelcomePage() {
                   WhatsApp para alinharmos os detalhes.
                 </p>
                 <a
-                  href="https://wa.me/5594991279940"
+                  href="https://wa.me/19292439704"
                   target="_blank"
                   rel="noreferrer"
                   className="mt-6 inline-flex h-11 items-center justify-center rounded-lg bg-[#FF6B00] px-8 text-sm font-semibold text-white transition hover:bg-[#e66000]"
