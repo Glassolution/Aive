@@ -63,7 +63,7 @@
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.993 0.002 265);
+  --background: oklch(1 0 0);
   --foreground: oklch(0.215 0.025 264);
   --brand-orange: oklch(0.7022 0.2004 45.1);
   --brand-amber: oklch(0.82 0.17 75);
@@ -179,10 +179,16 @@
   background: var(--gradient-brand);
 }
 
-.calendly-inline-widget {
-  scrollbar-width: none;
+.marquee-track {
+  animation: marquee-scroll 28s linear infinite;
 }
 
-.calendly-inline-widget::-webkit-scrollbar {
-  display: none;
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-33.333%);
+  }
 }

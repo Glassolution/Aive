@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>Nova call marcada - Aive</title>
+<style>
+  :root { color-scheme: light only; supported-color-schemes: light only; }
+  body, table, td { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  body { margin:0; padding:0; background-color:#FFFFFF; color:#111827; }
+  table { border-collapse: collapse; }
+  a { text-decoration:none; }
+  @media screen and (max-width: 600px) {
+    .container { width: 100% !important; }
+    .stack-padding { padding-left:24px !important; padding-right:24px !important; }
+    .ticket-value { font-size: 22px !important; }
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#FFFFFF;color:#111827;">
+
+  <div style="display:none;max-height:0;overflow:hidden;font-size:1px;line-height:1px;color:#FFFFFF;">
+    Nova call marcada por {{nome}} para {{data}} as {{horario}}.
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFFFFF" style="background-color:#FFFFFF;">
+    <tr>
+      <td align="center" bgcolor="#FFFFFF" style="padding:32px 16px;background-color:#FFFFFF !important;">
+        <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="#F8F7F5" style="width:600px;max-width:600px;background-color:#F8F7F5;border:1px solid #E7E2DA;border-collapse:separate !important;border-spacing:0;border-radius:18px;overflow:hidden;">
+
+          <tr>
+            <td bgcolor="#0A0A0A" style="background-color:#0A0A0A;padding:28px 40px;border-radius:18px 18px 0 0;" class="stack-padding">
+              <span style="font-size:20px;font-weight:800;letter-spacing:3px;color:#FFFFFF;">AIVE<span style="color:#FF7A00;">.</span></span>
+            </td>
+          </tr>
+
+          <tr>
+            <td bgcolor="#F8F7F5" style="padding:40px 40px 8px 40px;background-color:#F8F7F5 !important;" class="stack-padding">
+              <p style="margin:0;font-size:13px;font-weight:700;letter-spacing:2px;color:#FF6B00;text-transform:uppercase;">Nova call marcada</p>
+              <h1 style="margin:8px 0 0 0;font-size:26px;line-height:1.3;color:#0A0A0A;font-weight:800;">Um cliente marcou uma call com a Aive.</h1>
+              <p style="margin:14px 0 0 0;font-size:15px;line-height:1.6;color:#4B5563;">Confira os dados do agendamento abaixo.</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td bgcolor="#F8F7F5" style="padding:24px 40px 8px 40px;background-color:#F8F7F5 !important;" class="stack-padding">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#F8F7F5" style="border:0;border-collapse:separate !important;border-spacing:0;border-radius:14px;overflow:hidden;background-color:#F8F7F5 !important;">
+                <tr>
+                  <td bgcolor="#0A0A0A" style="background-color:#0A0A0A;padding:10px;text-align:center;">
+                    <span style="font-size:11px;font-weight:700;letter-spacing:2px;color:#FFFFFF;text-transform:uppercase;">Dados da call</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td bgcolor="#F8F7F5" style="padding:24px 28px 4px 28px;background-color:#F8F7F5 !important;">
+                    <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#FF6B00;text-transform:uppercase;">Cliente</p>
+                    <p class="ticket-value" style="margin:4px 0 0 0;font-size:22px;font-weight:800;color:#0A0A0A;">{{nome}}</p>
+                    <p style="margin:6px 0 0 0;font-size:14px;color:#4B5563;">{{email}}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td bgcolor="#F8F7F5" style="padding:14px 28px 0 28px;color:#CFC7BC;font-size:13px;letter-spacing:3px;text-align:center;background-color:#F8F7F5 !important;">&bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull;</td>
+                </tr>
+                <tr>
+                  <td bgcolor="#F8F7F5" style="padding:14px 28px 4px 28px;background-color:#F8F7F5 !important;">
+                    <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#FF6B00;text-transform:uppercase;">Data</p>
+                    <p class="ticket-value" style="margin:4px 0 0 0;font-size:22px;font-weight:800;color:#0A0A0A;">{{data}}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td bgcolor="#F8F7F5" style="padding:14px 28px 0 28px;color:#CFC7BC;font-size:13px;letter-spacing:3px;text-align:center;background-color:#F8F7F5 !important;">&bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull;</td>
+                </tr>
+                <tr>
+                  <td bgcolor="#F8F7F5" style="padding:14px 28px 4px 28px;background-color:#F8F7F5 !important;">
+                    <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#FF6B00;text-transform:uppercase;">Horario</p>
+                    <p class="ticket-value" style="margin:4px 0 0 0;font-size:22px;font-weight:800;color:#0A0A0A;">{{horario}} <span style="font-size:13px;font-weight:500;color:#6B7280;">(horario de Brasilia)</span></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td bgcolor="#F8F7F5" style="padding:14px 28px 24px 28px;background-color:#F8F7F5 !important;">
+                    <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#FF6B00;text-transform:uppercase;">Duracao</p>
+                    <p style="margin:4px 0 0 0;font-size:18px;font-weight:700;color:#0A0A0A;">{{duracao}}</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td bgcolor="#F8F7F5" style="padding:28px 40px 8px 40px;background-color:#F8F7F5 !important;" class="stack-padding" align="left">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td bgcolor="#0A0A0A" style="background-color:#0A0A0A;border-radius:999px;">
+                    <a href="{{calendar_link}}" style="display:inline-block;padding:15px 28px;font-size:14px;font-weight:800;color:#FFFFFF;letter-spacing:0.2px;">Adicionar ao calendario</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td bgcolor="#F8F7F5" style="padding:8px 40px 36px 40px;background-color:#F8F7F5 !important;" class="stack-padding">
+              <p style="margin:0;font-size:13px;color:#6B7280;">Esse aviso foi enviado automaticamente pelo site da Aive.</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td bgcolor="#F8F7F5" style="background-color:#F8F7F5;padding:24px 40px;text-align:center;border-radius:0 0 18px 18px;" class="stack-padding">
+              <p style="margin:0;font-size:12px;color:#6B7280;">Aive - aviso interno de agendamento</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
+
+
+

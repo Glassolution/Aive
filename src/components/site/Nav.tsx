@@ -4,28 +4,36 @@ import { Button } from "@/components/ui/button";
 
 export function Nav() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border/55 bg-background/86 backdrop-blur-xl">
-      <div className="relative mx-auto flex max-w-6xl items-center justify-between px-5 py-3 sm:px-6">
+    <header className="relative z-40 bg-transparent">
+      <div className="mx-auto flex h-[96px] max-w-[1320px] items-center justify-between gap-8 px-5 sm:px-6 lg:px-0">
         <Link to="/" aria-label="Início da Aive" className="inline-flex items-center">
-          <img src={logoMark} alt="" className="h-7 w-7 object-contain" />
+          <span className="inline-flex items-center gap-3">
+            <img src={logoMark} alt="" className="h-9 w-9 object-contain" />
+            <span className="font-display text-[2rem] font-medium leading-none tracking-[-0.04em] text-foreground">
+              Aive
+            </span>
+          </span>
         </Link>
-        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 text-xs text-muted-foreground md:flex">
-          <Link to="/" hash="how" className="hover:text-foreground transition">
-            Como funciona
+        <nav className="hidden flex-1 items-center justify-end gap-8 text-[15px] font-medium text-muted-foreground md:flex">
+          <Link to="/" hash="how" className="transition hover:text-foreground">
+            Como Funciona
           </Link>
-          <Link to="/" hash="pricing" className="hover:text-foreground transition">
-            Preços
+          <Link to="/" hash="benefits" className="transition hover:text-foreground">
+            Benefícios
           </Link>
-          <Link to="/" hash="results" className="hover:text-foreground transition">
+          <Link to="/" hash="results" className="transition hover:text-foreground">
             Resultados
           </Link>
-          <Link to="/" hash="faq" className="hover:text-foreground transition">
-            Perguntas frequentes
+          <Link to="/" hash="pricing" className="transition hover:text-foreground">
+            Preços
+          </Link>
+          <Link to="/" hash="faq" className="transition hover:text-foreground">
+            FAQ
           </Link>
         </nav>
         <Button
           asChild
-          className="h-9 rounded-lg bg-primary px-4 text-xs font-medium text-primary-foreground shadow-none transition hover:bg-primary/90"
+          className="h-14 shrink-0 rounded-full bg-[#111722] px-8 text-[14px] font-semibold text-white shadow-none transition hover:bg-[#1a2230]"
         >
           <Link to="/book-a-call">Agendar sessão</Link>
         </Button>
