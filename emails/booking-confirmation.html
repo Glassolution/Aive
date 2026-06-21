@@ -1,106 +1,117 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light">
-<meta name="supported-color-schemes" content="light">
+<meta name="color-scheme" content="dark">
+<meta name="supported-color-schemes" content="dark">
 <title>Call confirmada - Aive</title>
 <style>
-  :root { color-scheme: light only; supported-color-schemes: light only; }
   body, table, td { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-  body { margin:0; padding:0; background-color:#FFFFFF; color:#111827; }
+  body { margin:0; padding:0; background-color:#0A0A0A; }
   table { border-collapse: collapse; }
   a { text-decoration:none; }
   @media screen and (max-width: 600px) {
     .container { width: 100% !important; }
     .stack-padding { padding-left:24px !important; padding-right:24px !important; }
-    .ticket-value { font-size: 22px !important; }
+    .ticket-value { font-size:22px !important; }
   }
+  @media (prefers-color-scheme: dark), (prefers-color-scheme: light) {
+    .page-bg { background-color:#0A0A0A !important; }
+    .card-bg { background-color:#141414 !important; }
+    .logo-bg { background-color:#FF7A00 !important; }
+    .ticket-header-bg { background-color:#0A0A0A !important; }
+    .btn-bg { background-color:#FF7A00 !important; }
+    .footer-bg { background-color:#0A0A0A !important; }
+    .text-on-orange { color:#0A0A0A !important; }
+    .text-heading { color:#FFFFFF !important; }
+    .text-body { color:#C9C9C9 !important; }
+    .text-muted { color:#9A9A9A !important; }
+    .text-faint { color:#777777 !important; }
+    .text-orange { color:#FF8A2B !important; }
+    .text-divider { color:#333333 !important; }
+    .text-ticket-value { color:#FFFFFF !important; }
+  }
+  [data-ogsc] .page-bg { background-color:#0A0A0A !important; }
+  [data-ogsc] .card-bg { background-color:#141414 !important; }
+  [data-ogsc] .logo-bg { background-color:#FF7A00 !important; }
+  [data-ogsc] .text-on-orange { color:#0A0A0A !important; }
+  [data-ogsc] .text-heading { color:#FFFFFF !important; }
+  [data-ogsc] .text-body { color:#C9C9C9 !important; }
+  [data-ogsc] .text-orange { color:#FF8A2B !important; }
 </style>
 </head>
-<body style="margin:0;padding:0;background-color:#FFFFFF;color:#111827;">
-
-  <!-- Preheader -->
-  <div style="display:none;max-height:0;overflow:hidden;font-size:1px;line-height:1px;color:#FFFFFF;">
+<body class="page-bg" style="margin:0;padding:0;background-color:#0A0A0A;">
+  <div style="display:none;max-height:0;overflow:hidden;font-size:1px;line-height:1px;color:#0A0A0A;">
     Sua call de {{duracao}} com a Aive foi confirmada para {{data}} as {{horario}}.
   </div>
 
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFFFFF" style="background-color:#FFFFFF;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="page-bg" style="background-color:#0A0A0A;">
     <tr>
-      <td align="center" bgcolor="#FFFFFF" style="padding:32px 16px;background-color:#FFFFFF !important;">
-        <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="#F8F7F5" style="width:600px;max-width:600px;background-color:#F8F7F5;border:1px solid #E7E2DA;border-collapse:separate !important;border-spacing:0;border-radius:18px;overflow:hidden;">
-
-          <!-- Cabecalho -->
+      <td align="center" style="padding:32px 16px;">
+        <table role="presentation" class="container card-bg" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;background-color:#141414;border:1px solid #262626;border-radius:16px;overflow:hidden;">
           <tr>
-            <td bgcolor="#0A0A0A" style="background-color:#0A0A0A;padding:28px 40px;border-radius:18px 18px 0 0;" class="stack-padding">
-              <span style="font-size:20px;font-weight:800;letter-spacing:3px;color:#FFFFFF;">AIVE<span style="color:#FF7A00;">.</span></span>
+            <td bgcolor="#FF7A00" class="logo-bg stack-padding" style="background-color:#FF7A00;padding:24px 40px;">
+              <span class="text-on-orange" style="font-size:20px;font-weight:800;letter-spacing:3px;color:#0A0A0A;">AIVE<span style="color:#0A0A0A;">.</span></span>
             </td>
           </tr>
 
-          <!-- Saudacao -->
           <tr>
-            <td bgcolor="#F8F7F5" style="padding:40px 40px 8px 40px;background-color:#F8F7F5 !important;" class="stack-padding">
-              <p style="margin:0;font-size:13px;font-weight:700;letter-spacing:2px;color:#FF6B00;text-transform:uppercase;">Call confirmada</p>
-              <h1 style="margin:8px 0 0 0;font-size:26px;line-height:1.3;color:#0A0A0A;font-weight:800;">Oi {{nome}}, tudo certo pra sua call!</h1>
-              <p style="margin:14px 0 0 0;font-size:15px;line-height:1.6;color:#444444;">Guarda esse e-mail com os detalhes do seu horario.</p>
+            <td style="padding:40px 40px 8px 40px;" class="stack-padding">
+              <p class="text-orange" style="margin:0;font-size:13px;font-weight:700;letter-spacing:2px;color:#FF8A2B;text-transform:uppercase;">Call confirmada</p>
+              <h1 class="text-heading" style="margin:8px 0 0 0;font-size:26px;line-height:1.3;color:#FFFFFF;font-weight:800;">Oi {{nome}}, tudo certo pra sua call!</h1>
+              <p class="text-body" style="margin:14px 0 0 0;font-size:15px;line-height:1.6;color:#C9C9C9;">Guarda esse e-mail com os detalhes do seu horario.</p>
             </td>
           </tr>
 
-          <!-- "Ticket" com os detalhes -->
           <tr>
-            <td bgcolor="#F8F7F5" style="padding:24px 40px 8px 40px;background-color:#F8F7F5 !important;" class="stack-padding">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#F8F7F5" style="border:0;border-collapse:separate !important;border-spacing:0;border-radius:14px;overflow:hidden;background-color:#F8F7F5 !important;">
+            <td style="padding:24px 40px 8px 40px;" class="stack-padding">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:2px solid #FF7A00;border-radius:14px;overflow:hidden;">
                 <tr>
-                  <td bgcolor="#0A0A0A" style="background-color:#0A0A0A;padding:10px;text-align:center;">
-                    <span style="font-size:11px;font-weight:700;letter-spacing:2px;color:#FFFFFF;text-transform:uppercase;">Sua reserva</span>
+                  <td bgcolor="#0A0A0A" class="ticket-header-bg" style="background-color:#0A0A0A;padding:10px;text-align:center;">
+                    <span class="text-heading" style="font-size:11px;font-weight:700;letter-spacing:2px;color:#FFFFFF;text-transform:uppercase;">Sua reserva</span>
                   </td>
                 </tr>
                 <tr>
-                  <td bgcolor="#F8F7F5" style="padding:24px 28px 4px 28px;background-color:#F8F7F5 !important;">
-                    <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#FF6B00;text-transform:uppercase;">Data</p>
-                    <p class="ticket-value" style="margin:4px 0 0 0;font-size:22px;font-weight:800;color:#0A0A0A;">{{data}}</p>
+                  <td style="padding:24px 28px 4px 28px;">
+                    <p class="text-orange" style="margin:0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#FF8A2B;text-transform:uppercase;">Data</p>
+                    <p class="ticket-value text-ticket-value" style="margin:4px 0 0 0;font-size:22px;font-weight:800;color:#FFFFFF;">{{data}}</p>
                   </td>
                 </tr>
                 <tr>
-                  <td bgcolor="#F8F7F5" style="padding:14px 28px 0 28px;color:#CFC7BC;font-size:13px;letter-spacing:3px;text-align:center;background-color:#F8F7F5 !important;">&bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull;</td>
+                  <td class="text-divider" style="padding:14px 28px 0 28px;color:#333333;font-size:13px;letter-spacing:3px;text-align:center;">&bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull;</td>
                 </tr>
                 <tr>
-                  <td bgcolor="#F8F7F5" style="padding:14px 28px 4px 28px;background-color:#F8F7F5 !important;">
-                    <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#FF6B00;text-transform:uppercase;">Horario</p>
-                    <p class="ticket-value" style="margin:4px 0 0 0;font-size:22px;font-weight:800;color:#0A0A0A;">{{horario}} <span style="font-size:13px;font-weight:500;color:#888888;">(horario de Brasilia)</span></p>
+                  <td style="padding:14px 28px 4px 28px;">
+                    <p class="text-orange" style="margin:0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#FF8A2B;text-transform:uppercase;">Horario</p>
+                    <p class="ticket-value text-ticket-value" style="margin:4px 0 0 0;font-size:22px;font-weight:800;color:#FFFFFF;">{{horario}} <span class="text-muted" style="font-size:13px;font-weight:500;color:#9A9A9A;">(horario de Brasilia)</span></p>
                   </td>
                 </tr>
                 <tr>
-                  <td bgcolor="#F8F7F5" style="padding:14px 28px 0 28px;color:#CFC7BC;font-size:13px;letter-spacing:3px;text-align:center;background-color:#F8F7F5 !important;">&bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull;</td>
+                  <td class="text-divider" style="padding:14px 28px 0 28px;color:#333333;font-size:13px;letter-spacing:3px;text-align:center;">&bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull; &bull;</td>
                 </tr>
                 <tr>
-                  <td bgcolor="#F8F7F5" style="padding:14px 28px 24px 28px;background-color:#F8F7F5 !important;">
-                    <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#FF6B00;text-transform:uppercase;">Duracao</p>
-                    <p style="margin:4px 0 0 0;font-size:18px;font-weight:700;color:#0A0A0A;">{{duracao}}</p>
+                  <td style="padding:14px 28px 24px 28px;">
+                    <p class="text-orange" style="margin:0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#FF8A2B;text-transform:uppercase;">Duracao</p>
+                    <p class="text-heading" style="margin:4px 0 0 0;font-size:18px;font-weight:700;color:#FFFFFF;">{{duracao}}</p>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
 
-          <!-- Como entrar na call -->
           <tr>
-            <td bgcolor="#F8F7F5" style="padding:24px 40px 0 40px;background-color:#F8F7F5 !important;" class="stack-padding">
-              <p style="margin:0;font-size:15px;line-height:1.6;color:#444444;">
-                <!-- EDITAR: explique aqui como o cliente vai entrar na call (link do Zoom/Meet, telefone, etc.) -->
-                Te aviso por aqui mesmo, mais perto do horario, com o link ou contato pra entrarmos na call.
-              </p>
+            <td style="padding:24px 40px 0 40px;" class="stack-padding">
+              <p class="text-body" style="margin:0;font-size:15px;line-height:1.6;color:#C9C9C9;">Te aviso por aqui mesmo, mais perto do horario, com o link ou contato pra entrarmos na call.</p>
             </td>
           </tr>
 
-          <!-- Botao -->
           <tr>
-            <td bgcolor="#F8F7F5" style="padding:28px 40px 8px 40px;background-color:#F8F7F5 !important;" class="stack-padding" align="left">
+            <td style="padding:28px 40px 8px 40px;" class="stack-padding" align="left">
               <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                  <td bgcolor="#0A0A0A" style="background-color:#0A0A0A;border-radius:999px;">
-                    <a href="{{calendar_link}}" style="display:inline-block;padding:15px 28px;font-size:14px;font-weight:800;color:#FFFFFF;letter-spacing:0.2px;">Adicionar ao calendario</a>
+                  <td bgcolor="#FF7A00" class="btn-bg" style="background-color:#FF7A00;border-radius:8px;">
+                    <a href="{{calendar_link}}" class="text-on-orange" style="display:inline-block;padding:14px 28px;font-size:14px;font-weight:700;color:#0A0A0A;letter-spacing:0.5px;">Adicionar ao calendario</a>
                   </td>
                 </tr>
               </table>
@@ -108,28 +119,21 @@
           </tr>
 
           <tr>
-            <td bgcolor="#F8F7F5" style="padding:8px 40px 36px 40px;background-color:#F8F7F5 !important;" class="stack-padding">
-              <p style="margin:0;font-size:13px;color:#888888;">Precisa reagendar? <a href="https://aive.work/book-a-call" style="color:#0A0A0A;font-weight:700;text-decoration:underline;">Acesse o site</a> e escolha um novo horario.</p>
+            <td style="padding:8px 40px 36px 40px;" class="stack-padding">
+              <p class="text-muted" style="margin:0;font-size:13px;color:#9A9A9A;">Precisa reagendar? <a href="https://aive.work/book-a-call" class="text-orange" style="color:#FF8A2B;font-weight:700;text-decoration:underline;">Acesse o site</a> e escolha um novo horario.</p>
             </td>
           </tr>
 
-          <!-- Rodape -->
           <tr>
-            <td bgcolor="#F8F7F5" style="background-color:#F8F7F5;padding:24px 40px;text-align:center;border-radius:0 0 18px 18px;" class="stack-padding">
-              <p style="margin:0;font-size:12px;color:#999999;">Aive - agendamento de calls</p>
-              <p style="margin:6px 0 0 0;font-size:11px;color:#BBBBBB;">Voce recebeu este e-mail porque marcou uma call com a Aive.</p>
-              <p style="margin:6px 0 0 0;font-size:11px;color:#BBBBBB;">Este e um e-mail automatico - nao e necessario responder.</p>
+            <td bgcolor="#0A0A0A" class="footer-bg stack-padding" style="background-color:#0A0A0A;padding:24px 40px;text-align:center;border-top:1px solid #262626;">
+              <p class="text-muted" style="margin:0;font-size:12px;color:#9A9A9A;">Aive - agendamento de calls</p>
+              <p class="text-faint" style="margin:6px 0 0 0;font-size:11px;color:#777777;">Voce recebeu este e-mail porque marcou uma call com a Aive.</p>
+              <p class="text-faint" style="margin:6px 0 0 0;font-size:11px;color:#777777;">Este e um e-mail automatico - nao e necessario responder.</p>
             </td>
           </tr>
-
         </table>
       </td>
     </tr>
   </table>
-
 </body>
 </html>
-
-
-
-
