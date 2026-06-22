@@ -71,8 +71,8 @@ function buildCalendarDays(monthDate: Date) {
 }
 
 function BookACallPage() {
-  const nameInputRef = useRef<HTMLInputElement>(null);
-  const emailInputRef = useRef<HTMLInputElement>(null);
+  const nameInputRef = useRef<HTMLDivElement>(null);
+  const emailInputRef = useRef<HTMLDivElement>(null);
   const [slotsData, setSlotsData] = useState<SlotsResponse | null>(null);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedStartAt, setSelectedStartAt] = useState("");
@@ -157,8 +157,8 @@ function BookACallPage() {
 
     try {
       const payload = {
-        name: nameInputRef.current?.value.trim() ?? "",
-        email: emailInputRef.current?.value.trim() ?? "",
+        name: nameInputRef.current?.textContent?.trim() ?? "",
+        email: emailInputRef.current?.textContent?.trim() ?? "",
         startAt: selectedStartAt,
       };
 
@@ -336,30 +336,23 @@ function BookACallPage() {
                     </div>
 
                     <div className="mt-6 grid gap-3">
-                      <input
+                      <div
                         ref={nameInputRef}
-                        name="aive_contact_name"
-                        autoComplete="off"
-                        data-1p-ignore="true"
-                        data-lpignore="true"
-                        data-form-type="other"
-                        required
-                        type="text"
-                        className="pointer-events-auto h-14 rounded-2xl border border-border bg-white px-4 text-sm outline-none focus:border-[#ff6b00]"
-                        placeholder="Seu nome"
+                        role="textbox"
+                        tabIndex={0}
+                        contentEditable
+                        suppressContentEditableWarning
+                        className="aive-text-field"
+                        data-placeholder="Seu nome"
                       />
-                      <input
+                      <div
                         ref={emailInputRef}
-                        name="aive_contact_email"
-                        autoComplete="off"
-                        data-1p-ignore="true"
-                        data-lpignore="true"
-                        data-form-type="other"
-                        inputMode="email"
-                        required
-                        type="text"
-                        className="pointer-events-auto h-14 rounded-2xl border border-border bg-white px-4 text-sm outline-none focus:border-[#ff6b00]"
-                        placeholder="Seu e-mail"
+                        role="textbox"
+                        tabIndex={0}
+                        contentEditable
+                        suppressContentEditableWarning
+                        className="aive-text-field"
+                        data-placeholder="Seu e-mail"
                       />
                     </div>
 
