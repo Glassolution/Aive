@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, Clock, Loader2 } from "lucide-react";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
@@ -69,8 +69,6 @@ function buildCalendarDays(monthDate: Date) {
 }
 
 function BookACallPage() {
-  const nameInputRef = useRef<HTMLInputElement>(null);
-  const emailInputRef = useRef<HTMLInputElement>(null);
   const [slotsData, setSlotsData] = useState<SlotsResponse | null>(null);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedStartAt, setSelectedStartAt] = useState("");
@@ -79,7 +77,6 @@ function BookACallPage() {
     return new Date(now.getFullYear(), now.getMonth(), 1);
   });
   const [selectedTimezone, setSelectedTimezone] = useState("America/Sao_Paulo");
-  const [isContactComplete, setIsContactComplete] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -142,17 +139,7 @@ function BookACallPage() {
   const canGoPrevious = availableMonths.has(`${previousMonth.getFullYear()}-${previousMonth.getMonth()}`);
   const canGoNext = availableMonths.has(`${nextMonth.getFullYear()}-${nextMonth.getMonth()}`);
 
-  function handleContactInput() {
-    const nextComplete = Boolean(nameInputRef.current?.value.trim()) && Boolean(emailInputRef.current?.validity.valid);
-    setIsContactComplete((current) => (current === nextComplete ? current : nextComplete));
-    if (!nextComplete) {
-      setSelectedDate("");
-      setSelectedStartAt("");
-    }
-  }
-
   function chooseDate(dateKey: string) {
-    if (!isContactComplete) return;
     const slots = slotsByDate.get(dateKey) ?? [];
     setSelectedDate(dateKey);
     setSelectedStartAt(slots[0]?.startAt ?? "");
@@ -160,7 +147,7 @@ function BookACallPage() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!isContactComplete || !selectedStartAt || isSubmitting) return;
+    if (!selectedStartAt || isSubmitting) return;
 
     setIsSubmitting(true);
     setError("");
@@ -249,28 +236,6 @@ function BookACallPage() {
                   </div>
                 ) : (
                   <>
-                    <div className="relative z-20 mt-6 grid gap-3">
-                      <input
-                        ref={nameInputRef}
-                        name="name"
-                        autoComplete="name"
-                        required
-                        onInput={handleContactInput}
-                        className="h-13 rounded-2xl border border-border bg-white px-4 text-sm outline-none focus:border-[#ff6b00]"
-                        placeholder="Seu nome"
-                      />
-                      <input
-                        ref={emailInputRef}
-                        name="email"
-                        autoComplete="email"
-                        required
-                        type="email"
-                        onInput={handleContactInput}
-                        className="h-13 rounded-2xl border border-border bg-white px-4 text-sm outline-none focus:border-[#ff6b00]"
-                        placeholder="Seu e-mail"
-                      />
-                    </div>
-
                     <div className="relative z-0 mt-5">
                       {!selectedDate ? (
                         <div className="animate-in fade-in slide-in-from-left-3 duration-300">
@@ -314,14 +279,12 @@ function BookACallPage() {
                                   <button
                                     key={`${currentMonthKey}-${cell.key}`}
                                     type="button"
-                                    disabled={!isAvailable || !isContactComplete}
+                                    disabled={!isAvailable}
                                     onClick={() => cell.dateKey && chooseDate(cell.dateKey)}
                                     className={`h-9 rounded-xl text-xs font-semibold transition sm:h-10 sm:rounded-2xl sm:text-sm ${
-                                      isAvailable && isContactComplete
+                                      isAvailable
                                         ? "border border-[#ff6b00]/25 bg-white text-foreground hover:border-[#ff6b00] hover:text-[#ff6b00]"
-                                        : cell.dayNumber && isAvailable
-                                          ? "border border-border bg-white text-muted-foreground/45"
-                                          : cell.dayNumber
+                                        : cell.dayNumber
                                           ? "bg-transparent text-muted-foreground/35"
                                           : "invisible"
                                     }`}
@@ -365,11 +328,29 @@ function BookACallPage() {
                       )}
                     </div>
 
+                    <div className="relative z-20 mt-6 grid gap-3">
+                      <input
+                        name="name"
+                        autoComplete="name"
+                        required
+                        className="h-13 rounded-2xl border border-border bg-white px-4 text-sm outline-none focus:border-[#ff6b00]"
+                        placeholder="Seu nome"
+                      />
+                      <input
+                        name="email"
+                        autoComplete="email"
+                        required
+                        type="email"
+                        className="h-13 rounded-2xl border border-border bg-white px-4 text-sm outline-none focus:border-[#ff6b00]"
+                        placeholder="Seu e-mail"
+                      />
+                    </div>
+
                     {error ? <p className="mt-4 text-sm font-medium text-[#d9480f]">{error}</p> : null}
 
                     <button
                       type="submit"
-                      disabled={!isContactComplete || !selectedStartAt || isSubmitting}
+                      disabled={!selectedStartAt || isSubmitting}
                       className="relative z-20 mt-6 inline-flex h-14 w-full items-center justify-center rounded-full bg-[#111722] px-8 text-sm font-semibold text-white transition hover:bg-[#1a2230] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {isSubmitting ? (
