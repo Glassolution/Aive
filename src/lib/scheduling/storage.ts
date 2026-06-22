@@ -40,13 +40,13 @@ function rowToBooking(row: Record<string, unknown>): Booking {
 async function readLocalStore(): Promise<LocalStore> {
   const { readFile, mkdir } = await import("node:fs/promises");
   const { dirname, join } = await import("node:path");
-  const filePath = join(process.cwd(), ".data", "bookings.local.json");
+  const filePath = join(process.env.VERCEL ? "/tmp" : process.cwd(), ".data", "bookings.local.json");
 
   try {
     const contents = await readFile(filePath, "utf8");
     return JSON.parse(contents) as LocalStore;
   } catch {
-    await mkdir(dirname(filePath), { recursive: true });
+    await mkdir(dirname(filePath), { recursive: true }).catch(() => undefined);
     return { bookings: [] };
   }
 }
@@ -54,7 +54,7 @@ async function readLocalStore(): Promise<LocalStore> {
 async function writeLocalStore(store: LocalStore) {
   const { writeFile, mkdir } = await import("node:fs/promises");
   const { dirname, join } = await import("node:path");
-  const filePath = join(process.cwd(), ".data", "bookings.local.json");
+  const filePath = join(process.env.VERCEL ? "/tmp" : process.cwd(), ".data", "bookings.local.json");
   await mkdir(dirname(filePath), { recursive: true });
   await writeFile(filePath, JSON.stringify(store, null, 2), "utf8");
 }
@@ -114,4 +114,3 @@ export async function createBooking(input: CreateBookingInput) {
   await writeLocalStore(store);
   return booking;
 }
-

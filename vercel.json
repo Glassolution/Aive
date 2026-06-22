@@ -3,7 +3,7 @@
   "outputDirectory": "dist-vercel",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
   ]
