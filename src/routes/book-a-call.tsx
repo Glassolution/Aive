@@ -41,6 +41,8 @@ const timezoneOptions = [
   { value: "Europe/Lisbon", label: "Lisboa" },
 ];
 
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 function parseDateKey(dateKey: string) {
   const [year, month, day] = dateKey.split("-").map(Number);
   return new Date(year, month - 1, day);
@@ -155,13 +157,18 @@ function BookACallPage() {
     try {
       const formData = new FormData(event.currentTarget);
       const payload = {
-        name: String(formData.get("name") ?? "").trim(),
-        email: String(formData.get("email") ?? "").trim(),
+        name: String(formData.get("aive_contact_name") ?? "").trim(),
+        email: String(formData.get("aive_contact_email") ?? "").trim(),
         startAt: selectedStartAt,
       };
 
       if (!payload.name || !payload.email) {
         setError("Preencha nome e e-mail antes de confirmar.");
+        return;
+      }
+
+      if (!emailPattern.test(payload.email)) {
+        setError("Digite um e-mail valido antes de confirmar.");
         return;
       }
 
@@ -223,7 +230,7 @@ function BookACallPage() {
             {confirmedBooking ? (
               <Confirmation booking={confirmedBooking} timezone={slotsData?.timezone ?? "America/Sao_Paulo"} />
             ) : (
-              <form className="relative z-10" onSubmit={handleSubmit}>
+              <form className="relative z-10" autoComplete="off" onSubmit={handleSubmit}>
                 <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#ff6b00]">
                   <CalendarDays className="h-4 w-4" />
                   Escolha seu horario
@@ -328,20 +335,28 @@ function BookACallPage() {
                       )}
                     </div>
 
-                    <div className="relative z-20 mt-6 grid gap-3">
+                    <div className="mt-6 grid gap-3">
                       <input
-                        name="name"
-                        autoComplete="name"
+                        name="aive_contact_name"
+                        autoComplete="off"
+                        data-1p-ignore="true"
+                        data-lpignore="true"
+                        data-form-type="other"
                         required
-                        className="h-13 rounded-2xl border border-border bg-white px-4 text-sm outline-none focus:border-[#ff6b00]"
+                        type="text"
+                        className="pointer-events-auto h-14 rounded-2xl border border-border bg-white px-4 text-sm outline-none focus:border-[#ff6b00]"
                         placeholder="Seu nome"
                       />
                       <input
-                        name="email"
-                        autoComplete="email"
+                        name="aive_contact_email"
+                        autoComplete="off"
+                        data-1p-ignore="true"
+                        data-lpignore="true"
+                        data-form-type="other"
+                        inputMode="email"
                         required
-                        type="email"
-                        className="h-13 rounded-2xl border border-border bg-white px-4 text-sm outline-none focus:border-[#ff6b00]"
+                        type="text"
+                        className="pointer-events-auto h-14 rounded-2xl border border-border bg-white px-4 text-sm outline-none focus:border-[#ff6b00]"
                         placeholder="Seu e-mail"
                       />
                     </div>
