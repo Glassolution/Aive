@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, Clock, Loader2 } from "lucide-react";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
@@ -71,6 +71,8 @@ function buildCalendarDays(monthDate: Date) {
 }
 
 function BookACallPage() {
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
   const [slotsData, setSlotsData] = useState<SlotsResponse | null>(null);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedStartAt, setSelectedStartAt] = useState("");
@@ -147,18 +149,16 @@ function BookACallPage() {
     setSelectedStartAt(slots[0]?.startAt ?? "");
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function handleSubmit() {
     if (!selectedStartAt || isSubmitting) return;
 
     setIsSubmitting(true);
     setError("");
 
     try {
-      const formData = new FormData(event.currentTarget);
       const payload = {
-        name: String(formData.get("aive_contact_name") ?? "").trim(),
-        email: String(formData.get("aive_contact_email") ?? "").trim(),
+        name: nameInputRef.current?.value.trim() ?? "",
+        email: emailInputRef.current?.value.trim() ?? "",
         startAt: selectedStartAt,
       };
 
@@ -230,7 +230,7 @@ function BookACallPage() {
             {confirmedBooking ? (
               <Confirmation booking={confirmedBooking} timezone={slotsData?.timezone ?? "America/Sao_Paulo"} />
             ) : (
-              <form className="relative z-10" autoComplete="off" onSubmit={handleSubmit}>
+              <div className="relative z-10">
                 <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#ff6b00]">
                   <CalendarDays className="h-4 w-4" />
                   Escolha seu horario
@@ -337,6 +337,7 @@ function BookACallPage() {
 
                     <div className="mt-6 grid gap-3">
                       <input
+                        ref={nameInputRef}
                         name="aive_contact_name"
                         autoComplete="off"
                         data-1p-ignore="true"
@@ -348,6 +349,7 @@ function BookACallPage() {
                         placeholder="Seu nome"
                       />
                       <input
+                        ref={emailInputRef}
                         name="aive_contact_email"
                         autoComplete="off"
                         data-1p-ignore="true"
@@ -364,7 +366,8 @@ function BookACallPage() {
                     {error ? <p className="mt-4 text-sm font-medium text-[#d9480f]">{error}</p> : null}
 
                     <button
-                      type="submit"
+                      type="button"
+                      onClick={handleSubmit}
                       disabled={!selectedStartAt || isSubmitting}
                       className="relative z-20 mt-6 inline-flex h-14 w-full items-center justify-center rounded-full bg-[#111722] px-8 text-sm font-semibold text-white transition hover:bg-[#1a2230] disabled:cursor-not-allowed disabled:opacity-50"
                     >
@@ -379,7 +382,7 @@ function BookACallPage() {
                     </button>
                   </>
                 )}
-              </form>
+              </div>
             )}
           </div>
         </div>
