@@ -208,11 +208,11 @@ function BookACallPage() {
           </div>
 
           <div className="relative overflow-hidden rounded-[28px] border border-border bg-white p-5 shadow-[0_24px_70px_rgba(15,23,42,0.08)] sm:p-8">
-            <div className="absolute right-8 top-8 h-20 w-20 rounded-full bg-[#ff6b00]/10" />
+            <div className="pointer-events-none absolute right-8 top-8 h-20 w-20 rounded-full bg-[#ff6b00]/10" />
             {confirmedBooking ? (
               <Confirmation booking={confirmedBooking} timezone={slotsData?.timezone ?? "America/Sao_Paulo"} />
             ) : (
-              <form className="relative" onSubmit={handleSubmit}>
+              <form className="relative z-10" onSubmit={handleSubmit}>
                 <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#ff6b00]">
                   <CalendarDays className="h-4 w-4" />
                   Escolha seu horario
@@ -225,13 +225,9 @@ function BookACallPage() {
                   </div>
                 ) : (
                   <>
-                    <div className="mt-5 overflow-hidden">
-                      <div
-                        className={`flex gap-8 transition-transform duration-500 ease-out ${
-                          selectedDate ? "-translate-x-[calc(100%+2rem)]" : "translate-x-0"
-                        }`}
-                      >
-                        <div className="w-full shrink-0">
+                    <div className="relative z-0 mt-5">
+                      {!selectedDate ? (
+                        <div className="animate-in fade-in slide-in-from-left-3 duration-300">
                           <div className="rounded-[22px] border border-border bg-[#faf8f6] p-3 sm:p-4">
                             <div className="flex items-center justify-between gap-4">
                               <button
@@ -289,8 +285,8 @@ function BookACallPage() {
                             </div>
                           </div>
                         </div>
-
-                        <div className="w-full shrink-0">
+                      ) : (
+                        <div className="animate-in fade-in slide-in-from-right-3 duration-300">
                           <div className="mb-4 flex items-center justify-between gap-4">
                             <button
                               type="button"
@@ -318,11 +314,13 @@ function BookACallPage() {
                             onSelect={setSelectedStartAt}
                           />
                         </div>
-                      </div>
+                      )}
                     </div>
 
-                    <div className="mt-6 grid gap-3">
+                    <div className="relative z-20 mt-6 grid gap-3">
                       <input
+                        name="name"
+                        autoComplete="name"
                         required
                         value={form.name}
                         onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
@@ -330,6 +328,8 @@ function BookACallPage() {
                         placeholder="Seu nome"
                       />
                       <input
+                        name="email"
+                        autoComplete="email"
                         required
                         type="email"
                         value={form.email}
@@ -344,7 +344,7 @@ function BookACallPage() {
                     <button
                       type="submit"
                       disabled={!selectedStartAt || isSubmitting}
-                      className="mt-6 inline-flex h-14 w-full items-center justify-center rounded-full bg-[#111722] px-8 text-sm font-semibold text-white transition hover:bg-[#1a2230] disabled:cursor-not-allowed disabled:opacity-50"
+                      className="relative z-20 mt-6 inline-flex h-14 w-full items-center justify-center rounded-full bg-[#111722] px-8 text-sm font-semibold text-white transition hover:bg-[#1a2230] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {isSubmitting ? (
                         <>
