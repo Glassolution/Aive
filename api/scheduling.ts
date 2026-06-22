@@ -1,11 +1,11 @@
+import { bookSchedulingSlot, getSchedulingSlots } from "../src/lib/scheduling/service";
+
 export const config = {
   runtime: "nodejs",
 };
 
 export default async function handler(req: any, res: any) {
   try {
-    const { bookSchedulingSlot, getSchedulingSlots } = await import("../src/lib/scheduling/service");
-
     if (req.method === "GET") {
       return res.status(200).json(await getSchedulingSlots());
     }
