@@ -94,11 +94,69 @@ function createCalendarLink(booking: Booking) {
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
-function renderTemplate(template: string, values: Record<string, string>) {
-  return Object.entries(values).reduce(
-    (rendered, [key, value]) => rendered.replaceAll(`{{${key}}}`, escapeHtml(value)),
-    template,
-  );
+function renderTemplate(template: string, values: Record<string, string>, rawKeys: string[] = []) {
+  return Object.entries(values).reduce((rendered, [key, value]) => {
+    const renderedValue = rawKeys.includes(key) ? value : escapeHtml(value);
+    return rendered.replaceAll(`{{${key}}}`, renderedValue);
+  }, template);
+}
+
+function renderQuestionnaireHtml(booking: Booking) {
+  const questionnaire = (booking as Booking & {
+    questionnaire?: Array<{ categoria: string; pergunta: string; resposta: string }>;
+  }).questionnaire;
+
+  if (Array.isArray(questionnaire) && questionnaire.some((item) => item.resposta)) {
+    const topics = Array.from(new Set(questionnaire.filter((item) => item.resposta).map((item) => item.categoria)));
+    const topicRows = topics
+      .map((topic) => {
+        const rows = questionnaire
+          .filter((item) => item.categoria === topic && item.resposta)
+          .map(
+            (item) => `<tr>
+              <td style="padding:12px 0;border-top:1px solid #262626;">
+                <p style="margin:0;font-size:13px;line-height:1.45;color:#FFFFFF;font-weight:700;">${escapeHtml(item.pergunta)}</p>
+                <p style="margin:6px 0 0 0;font-size:14px;line-height:1.55;color:#C9C9C9;">${escapeHtml(item.resposta)}</p>
+              </td>
+            </tr>`,
+          )
+          .join("");
+
+        return `<tr>
+          <td style="padding:18px 24px 4px 24px;">
+            <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#FF8A2B;text-transform:uppercase;">${escapeHtml(topic)}</p>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${rows}</table>
+          </td>
+        </tr>`;
+      })
+      .join("");
+
+    return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #262626;border-radius:14px;overflow:hidden;">
+      <tr><td bgcolor="#0A0A0A" style="background-color:#0A0A0A;padding:10px;text-align:center;"><span style="font-size:11px;font-weight:700;letter-spacing:2px;color:#FFFFFF;text-transform:uppercase;">Questionario</span></td></tr>
+      ${topicRows}
+    </table>`;
+  }
+
+  const topic = booking.topic?.trim();
+  const topicRows = topic
+    ? topic
+        .split("|")
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .map(
+          (item) => `<tr>
+            <td style="padding:12px 0;border-top:1px solid #262626;">
+              <p style="margin:0;font-size:14px;line-height:1.55;color:#C9C9C9;">${escapeHtml(item)}</p>
+            </td>
+          </tr>`,
+        )
+        .join("")
+    : `<tr><td style="padding:20px 24px;"><p style="margin:0;font-size:14px;line-height:1.6;color:#9A9A9A;">Nenhuma resposta preenchida.</p></td></tr>`;
+
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #262626;border-radius:14px;overflow:hidden;">
+    <tr><td bgcolor="#0A0A0A" style="background-color:#0A0A0A;padding:10px;text-align:center;"><span style="font-size:11px;font-weight:700;letter-spacing:2px;color:#FFFFFF;text-transform:uppercase;">Questionario</span></td></tr>
+    ${topicRows}
+  </table>`;
 }
 
 async function renderCustomerEmail(booking: Booking) {
@@ -135,6 +193,7 @@ async function renderOwnerEmail(booking: Booking) {
   const horario = timeFormatter.format(new Date(booking.startAt));
   const duracao = `${schedulingConfig.slotDurationMinutes} minutos`;
   const calendarLink = createCalendarLink(booking);
+  const questionario = renderQuestionnaireHtml(booking);
   const html = renderTemplate(template, {
     nome: booking.name,
     email: booking.email,
@@ -142,7 +201,8 @@ async function renderOwnerEmail(booking: Booking) {
     horario,
     duracao,
     calendar_link: calendarLink,
-  });
+    questionario,
+  }, ["questionario"]).replaceAll("{{questionario}}", questionario);
   const text = [
     "Nova call marcada no site da Aive.",
     "",

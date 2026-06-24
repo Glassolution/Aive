@@ -3,9 +3,17 @@ export type Booking = {
   name: string;
   email: string;
   topic: string | null;
+  questionnaire?: QuestionnaireAnswer[];
   startAt: string;
   endAt: string;
   createdAt: string;
+};
+
+export type QuestionnaireAnswer = {
+  id: number;
+  categoria: string;
+  pergunta: string;
+  resposta: string;
 };
 
 export type Slot = {
@@ -30,10 +38,10 @@ export type CreateBookingInput = {
   name: string;
   email: string;
   topic?: string;
+  questionnaire?: QuestionnaireAnswer[];
   startAt: string;
 };
 
 export type CreateBookingResult =
   | { ok: true; booking: Booking; emailStatus: "sent" | "skipped" | "failed" }
   | { ok: false; error: "invalid" | "unavailable" | "storage" };
-

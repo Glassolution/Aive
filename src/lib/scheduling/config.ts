@@ -12,7 +12,7 @@ export const schedulingConfig = {
   workdayEndHour: 18,
   slotDurationMinutes: 45,
   minimumNoticeMinutes: 120,
-  daysToShow: 21,
+  daysToShow: 60,
   ownerEmail: parseEmailList(process.env.SCHEDULING_OWNER_EMAIL ?? "lucassrby@gmail.com,xavierluisfelipe17@gmail.com"),
   fromEmail: process.env.RESEND_FROM_EMAIL ?? "Aive <agenda@aive.work>",
 };

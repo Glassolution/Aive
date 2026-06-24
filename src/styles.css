@@ -169,21 +169,31 @@
 }
 
 .aive-text-field {
-  align-items: center;
   background: white;
   border: 1px solid var(--color-border);
   border-radius: 1rem;
+  caret-color: var(--color-foreground);
   color: var(--color-foreground);
-  display: flex;
+  display: block;
   font-size: 0.875rem;
-  min-height: 3.5rem;
+  height: 3.5rem;
+  line-height: 3.5rem;
   outline: none;
+  overflow: hidden;
   padding: 0 1rem;
-  white-space: pre-wrap;
+  white-space: nowrap;
 }
 
 .aive-text-field:focus {
   border-color: #ff6b00;
+}
+
+.aive-hidden-scrollbar {
+  scrollbar-width: none;
+}
+
+.aive-hidden-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 .aive-text-field:empty::before {

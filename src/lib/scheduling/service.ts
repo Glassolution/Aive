@@ -8,6 +8,16 @@ export const bookingInputSchema = z.object({
   name: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(180),
   topic: z.string().trim().max(180).optional(),
+  questionnaire: z
+    .array(
+      z.object({
+        id: z.coerce.number(),
+        categoria: z.string().trim().max(80),
+        pergunta: z.string().trim().max(240),
+        resposta: z.string().trim().max(600),
+      }),
+    )
+    .optional(),
   startAt: z.string().datetime(),
 });
 
@@ -40,4 +50,3 @@ export async function bookSchedulingSlot(rawInput: unknown): Promise<CreateBooki
     return { ok: false, error: "storage" };
   }
 }
-

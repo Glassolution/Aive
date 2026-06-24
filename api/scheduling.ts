@@ -9,7 +9,7 @@ const schedulingConfig = {
   workdayEndHour: 18,
   slotDurationMinutes: 45,
   minimumNoticeMinutes: 120,
-  daysToShow: 21,
+  daysToShow: 60,
 };
 
 const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
@@ -30,6 +30,92 @@ function parseEmailList(value: string) {
     .split(",")
     .map((email) => email.trim())
     .filter(Boolean);
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function renderTemplate(template: string, values: Record<string, string>, rawKeys: string[] = []) {
+  return Object.entries(values).reduce((rendered, [key, value]) => {
+    const renderedValue = rawKeys.includes(key) ? value : escapeHtml(value);
+    return rendered.replaceAll(`{{${key}}}`, renderedValue);
+  }, template);
+}
+
+async function loadOwnerNotificationTemplate() {
+  try {
+    const [{ readFile }, path] = await Promise.all([import("node:fs/promises"), import("node:path")]);
+    return readFile(path.join(process.cwd(), "emails", "booking-owner-notification.html"), "utf8");
+  } catch (error) {
+    console.warn("Template de aviso interno nao encontrado; usando fallback simples.", error);
+    return "";
+  }
+}
+
+function compactCalendarDate(isoDate: string) {
+  return isoDate.replaceAll("-", "").replaceAll(":", "").replace(/\.\d{3}Z$/, "Z");
+}
+
+function createCalendarLink(booking: { startAt: string; endAt?: string }) {
+  const start = compactCalendarDate(booking.startAt);
+  const end = compactCalendarDate(
+    booking.endAt ?? new Date(new Date(booking.startAt).getTime() + schedulingConfig.slotDurationMinutes * 60_000).toISOString(),
+  );
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: "Call com a Aive",
+    dates: `${start}/${end}`,
+    details: "Call estrategica com a Aive. O link da reuniao sera enviado antes do horario.",
+  });
+
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+
+function renderQuestionnaireTemplate(
+  questionnaire: Array<{ id: number; categoria: string; pergunta: string; resposta: string }>,
+) {
+  const answeredQuestions = questionnaire.filter((item) => item.resposta);
+  if (!answeredQuestions.length) {
+    return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #262626;border-radius:14px;overflow:hidden;">
+      <tr><td bgcolor="#0A0A0A" style="background-color:#0A0A0A;padding:10px;text-align:center;"><span style="font-size:11px;font-weight:700;letter-spacing:2px;color:#FFFFFF;text-transform:uppercase;">Questionario</span></td></tr>
+      <tr><td style="padding:20px 24px;"><p style="margin:0;font-size:14px;line-height:1.6;color:#9A9A9A;">Nenhuma resposta preenchida.</p></td></tr>
+    </table>`;
+  }
+
+  const topics = Array.from(new Set(answeredQuestions.map((item) => item.categoria)));
+  const topicRows = topics
+    .map((topic) => {
+      const rows = answeredQuestions
+        .filter((item) => item.categoria === topic)
+        .map(
+          (item) => `<tr>
+            <td style="padding:12px 0;border-top:1px solid #262626;">
+              <p style="margin:0;font-size:13px;line-height:1.45;color:#FFFFFF;font-weight:700;">${escapeHtml(item.pergunta)}</p>
+              <p style="margin:6px 0 0 0;font-size:14px;line-height:1.55;color:#C9C9C9;">${escapeHtml(item.resposta)}</p>
+            </td>
+          </tr>`,
+        )
+        .join("");
+
+      return `<tr>
+        <td style="padding:18px 24px 4px 24px;">
+          <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:1.5px;color:#FF8A2B;text-transform:uppercase;">${escapeHtml(topic)}</p>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${rows}</table>
+        </td>
+      </tr>`;
+    })
+    .join("");
+
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #262626;border-radius:14px;overflow:hidden;">
+    <tr><td bgcolor="#0A0A0A" style="background-color:#0A0A0A;padding:10px;text-align:center;"><span style="font-size:11px;font-weight:700;letter-spacing:2px;color:#FFFFFF;text-transform:uppercase;">Questionario</span></td></tr>
+    ${topicRows}
+  </table>`;
 }
 
 function zonedParts(date: Date) {
@@ -201,21 +287,58 @@ function validateBooking(input: any) {
   const name = typeof input?.name === "string" ? input.name.trim() : "";
   const email = typeof input?.email === "string" ? input.email.trim() : "";
   const startAt = typeof input?.startAt === "string" ? input.startAt : "";
+  const company = typeof input?.company === "string" ? input.company.trim().slice(0, 180) : "";
+  const website = typeof input?.website === "string" ? input.website.trim().slice(0, 220) : "";
+  const service = typeof input?.service === "string" ? input.service.trim().slice(0, 180) : "";
+  const volume = typeof input?.volume === "string" ? input.volume.trim().slice(0, 180) : "";
+  const questionnaire = Array.isArray(input?.questionnaire)
+    ? input.questionnaire
+        .map((item: any) => ({
+          id: Number(item?.id) || 0,
+          categoria: typeof item?.categoria === "string" ? item.categoria.trim().slice(0, 80) : "",
+          pergunta: typeof item?.pergunta === "string" ? item.pergunta.trim().slice(0, 240) : "",
+          resposta: typeof item?.resposta === "string" ? item.resposta.trim().slice(0, 600) : "",
+        }))
+        .filter((item) => item.id > 0 && item.categoria && item.pergunta)
+        .slice(0, 12)
+    : [];
 
   if (name.length < 2 || name.length > 120) return null;
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 180) return null;
   if (!isAllowedSlot(startAt)) return null;
 
-  return { name, email, startAt };
+  return { name, email, startAt, company, website, service, volume, questionnaire };
 }
 
-async function createBooking(input: { name: string; email: string; startAt: string }) {
+async function createBooking(input: {
+  name: string;
+  email: string;
+  startAt: string;
+  company?: string;
+  website?: string;
+  service?: string;
+  volume?: string;
+  questionnaire?: Array<{ id: number; categoria: string; pergunta: string; resposta: string }>;
+}) {
   const endAt = new Date(new Date(input.startAt).getTime() + schedulingConfig.slotDurationMinutes * 60_000);
+  const questionnaireSummary = (input.questionnaire ?? [])
+    .filter((item) => item.resposta)
+    .map((item) => `${item.categoria} - ${item.pergunta}: ${item.resposta}`)
+    .join(" | ");
+  const topic = [questionnaireSummary, input.company, input.website, input.service, input.volume]
+    .filter(Boolean)
+    .join(" | ")
+    .slice(0, 900);
   const booking = {
     id: crypto.randomUUID(),
     name: input.name,
     email: input.email,
-    topic: null,
+    topic,
+    company: input.company ?? "",
+    website: input.website ?? "",
+    service: input.service ?? "",
+    volume: input.volume ?? "",
+    questionnaire: input.questionnaire ?? [],
     startAt: input.startAt,
     endAt: endAt.toISOString(),
     createdAt: new Date().toISOString(),
@@ -227,7 +350,7 @@ async function createBooking(input: { name: string; email: string; startAt: stri
   const { sql } = await import("@vercel/postgres");
   const { rows } = await sql`
     INSERT INTO bookings (id, name, email, topic, start_at, end_at)
-    VALUES (${booking.id}, ${booking.name}, ${booking.email}, null, ${booking.startAt}, ${booking.endAt})
+    VALUES (${booking.id}, ${booking.name}, ${booking.email}, ${booking.topic || null}, ${booking.startAt}, ${booking.endAt})
     ON CONFLICT (start_at) DO NOTHING
     RETURNING id;
   `;
@@ -235,7 +358,16 @@ async function createBooking(input: { name: string; email: string; startAt: stri
   return rows[0] ? booking : null;
 }
 
-async function sendBookingEmails(booking: { name: string; email: string; startAt: string }) {
+async function sendBookingEmails(booking: {
+  name: string;
+  email: string;
+  startAt: string;
+  company?: string;
+  website?: string;
+  service?: string;
+  volume?: string;
+  questionnaire?: Array<{ id: number; categoria: string; pergunta: string; resposta: string }>;
+}) {
   if (!process.env.RESEND_API_KEY) return "skipped";
 
   const { Resend } = await import("resend");
@@ -249,23 +381,78 @@ async function sendBookingEmails(booking: { name: string; email: string; startAt
     process.env.SCHEDULING_OWNER_EMAIL ?? "lucassrby@gmail.com,xavierluisfelipe17@gmail.com",
   );
   const from = process.env.RESEND_FROM_EMAIL ?? "Aive <agenda@aive.work>";
-  const html = `<div style="font-family:Arial,sans-serif"><h1>Call confirmada</h1><p>Oi ${booking.name}, sua call com a Aive esta confirmada para ${data} as ${horario}.</p></div>`;
+  const meetLink = process.env.GOOGLE_MEET_LINK ?? "https://meet.google.com/";
+  const calendarLink = createCalendarLink(booking);
+  const companyDetailsText = [
+    booking.company ? `Empresa: ${booking.company}` : "",
+    booking.website ? `Site/Instagram: ${booking.website}` : "",
+    booking.service ? `Serviço principal: ${booking.service}` : "",
+    booking.volume ? `Volume atual: ${booking.volume}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+  const companyDetailsHtml = [
+    booking.company ? `<li><strong>Empresa:</strong> ${booking.company}</li>` : "",
+    booking.website ? `<li><strong>Site/Instagram:</strong> ${booking.website}</li>` : "",
+    booking.service ? `<li><strong>Serviço principal:</strong> ${booking.service}</li>` : "",
+    booking.volume ? `<li><strong>Volume atual:</strong> ${booking.volume}</li>` : "",
+  ]
+    .filter(Boolean)
+    .join("");
+  const questionnaireText = (booking.questionnaire ?? [])
+    .filter((item) => item.resposta)
+    .map((item) => `- [${item.categoria}] ${item.pergunta}: ${item.resposta}`)
+    .join("\n");
+  const questionnaireHtml = (booking.questionnaire ?? [])
+    .filter((item) => item.resposta)
+    .map(
+      (item) =>
+        `<li><strong>[${item.categoria}] ${item.pergunta}</strong><br/><span>${item.resposta}</span></li>`,
+    )
+    .join("");
+  const questionnaireTemplateHtml = renderQuestionnaireTemplate(booking.questionnaire ?? []);
+  const ownerTemplate = await loadOwnerNotificationTemplate();
+  let ownerHtml = ownerTemplate
+    ? renderTemplate(
+        ownerTemplate,
+        {
+          nome: booking.name,
+          email: booking.email,
+          data,
+          horario,
+          duracao: `${schedulingConfig.slotDurationMinutes} minutos`,
+          calendar_link: calendarLink,
+          questionario: questionnaireTemplateHtml,
+        },
+        ["questionario"],
+      )
+    : [
+        '<div style="font-family:Arial,sans-serif">',
+        "<h1>Nova call marcada</h1>",
+        `<p>${escapeHtml(booking.name)} (${escapeHtml(booking.email)}) marcou para ${escapeHtml(data)} as ${escapeHtml(horario)}.</p>`,
+        companyDetailsHtml ? `<h2>Dados da empresa</h2><ul>${companyDetailsHtml}</ul>` : "",
+        questionnaireHtml ? `<h2>Questionario</h2><ul>${questionnaireHtml}</ul>` : "",
+        `<p>Google Meet: <a href="${meetLink}">${meetLink}</a></p>`,
+        "</div>",
+      ].join("");
+  ownerHtml = ownerHtml.replaceAll("{{questionario}}", questionnaireTemplateHtml);
+  const html = `<div style="font-family:Arial,sans-serif"><h1>Call confirmada</h1><p>Oi ${booking.name}, sua call com a Aive está confirmada para ${data} às ${horario}.</p><p>Google Meet: <a href="${meetLink}">${meetLink}</a></p></div>`;
 
   await resend.emails.send({
     from,
     to: booking.email,
     replyTo: ownerEmail,
-    subject: "Sua call com a Aive esta confirmada",
+    subject: "Sua call com a Aive está confirmada",
     html,
-    text: `Oi ${booking.name}, sua call com a Aive esta confirmada para ${data} as ${horario}.`,
+    text: `Oi ${booking.name}, sua call com a Aive está confirmada para ${data} às ${horario}.\nGoogle Meet: ${meetLink}`,
   });
 
   await resend.emails.send({
     from,
     to: ownerEmail,
     subject: "Nova call marcada - Aive",
-    html: `<div style="font-family:Arial,sans-serif"><h1>Nova call marcada</h1><p>${booking.name} (${booking.email}) marcou para ${data} as ${horario}.</p></div>`,
-    text: `${booking.name} (${booking.email}) marcou para ${data} as ${horario}.`,
+    html: ownerHtml,
+    text: `${booking.name} (${booking.email}) marcou para ${data} as ${horario}.${companyDetailsText ? `\n\nDados da empresa:\n${companyDetailsText}` : ""}${questionnaireText ? `\n\nQuestionario:\n${questionnaireText}` : ""}\nGoogle Meet: ${meetLink}\nAdicionar ao calendario: ${calendarLink}`,
   });
 
   return "sent";

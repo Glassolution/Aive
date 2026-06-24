@@ -31,10 +31,19 @@ function rowToBooking(row: Record<string, unknown>): Booking {
     name: String(row.name),
     email: String(row.email),
     topic: row.topic == null ? null : String(row.topic),
+    questionnaire: [],
     startAt: new Date(String(row.start_at)).toISOString(),
     endAt: new Date(String(row.end_at)).toISOString(),
     createdAt: new Date(String(row.created_at)).toISOString(),
   };
+}
+
+function questionnaireSummary(input: CreateBookingInput) {
+  return (input.questionnaire ?? [])
+    .filter((item) => item.resposta?.trim())
+    .map((item) => `${item.categoria} - ${item.pergunta}: ${item.resposta}`)
+    .join(" | ")
+    .slice(0, 900);
 }
 
 async function readLocalStore(): Promise<LocalStore> {
@@ -80,6 +89,7 @@ export async function listBookedStartTimes() {
 
 export async function createBooking(input: CreateBookingInput) {
   const endAt = new Date(new Date(input.startAt).getTime() + schedulingConfig.slotDurationMinutes * 60_000);
+  const topic = questionnaireSummary(input) || input.topic?.trim() || null;
 
   if (hasPostgresEnv()) {
     await ensurePostgresTable();
@@ -87,12 +97,12 @@ export async function createBooking(input: CreateBookingInput) {
     const id = randomUUID();
     const { rows } = await sql`
       INSERT INTO bookings (id, name, email, topic, start_at, end_at)
-      VALUES (${id}, ${input.name}, ${input.email}, ${input.topic || null}, ${input.startAt}, ${endAt.toISOString()})
+      VALUES (${id}, ${input.name}, ${input.email}, ${topic}, ${input.startAt}, ${endAt.toISOString()})
       ON CONFLICT (start_at) DO NOTHING
       RETURNING id, name, email, topic, start_at, end_at, created_at;
     `;
 
-    return rows[0] ? rowToBooking(rows[0]) : null;
+    return rows[0] ? { ...rowToBooking(rows[0]), questionnaire: input.questionnaire ?? [] } : null;
   }
 
   const store = await readLocalStore();
@@ -104,7 +114,8 @@ export async function createBooking(input: CreateBookingInput) {
     id: randomUUID(),
     name: input.name,
     email: input.email,
-    topic: input.topic?.trim() || null,
+    topic,
+    questionnaire: input.questionnaire ?? [],
     startAt: input.startAt,
     endAt: endAt.toISOString(),
     createdAt: new Date().toISOString(),
