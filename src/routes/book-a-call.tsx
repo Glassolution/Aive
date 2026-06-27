@@ -138,7 +138,7 @@ function BookACallPage() {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
   const choiceAnswersRef = useRef<Record<number, string>>({});
-  const textAnswerElementsRef = useRef<Record<number, HTMLTextAreaElement | null>>({});
+  const textAnswerElementsRef = useRef<Record<number, HTMLDivElement | null>>({});
   const textAnswersRef = useRef<Record<number, string>>({});
   const [slotsData, setSlotsData] = useState<SlotsResponse | null>(null);
   const [selectedDate, setSelectedDate] = useState("");
@@ -221,7 +221,7 @@ function BookACallPage() {
     choiceAnswersRef.current = {};
     textAnswersRef.current = {};
     for (const element of Object.values(textAnswerElementsRef.current)) {
-      if (element) element.value = "";
+      if (element) element.textContent = "";
     }
     textAnswerElementsRef.current = {};
     setChoiceAnswers({});
@@ -245,7 +245,7 @@ function BookACallPage() {
     for (const id of questionIdsToClear) delete nextTextAnswers[id];
     textAnswersRef.current = nextTextAnswers;
     for (const id of questionIdsToClear) {
-      if (textAnswerElementsRef.current[id]) textAnswerElementsRef.current[id].value = "";
+      if (textAnswerElementsRef.current[id]) textAnswerElementsRef.current[id].textContent = "";
       textAnswerElementsRef.current[id] = null;
     }
     setError("");
@@ -262,7 +262,7 @@ function BookACallPage() {
   function collectTextAnswers() {
     const next = { ...textAnswersRef.current };
     for (const [id, element] of Object.entries(textAnswerElementsRef.current)) {
-      if (element) next[Number(id)] = element.value;
+      if (element) next[Number(id)] = element.textContent ?? "";
     }
     textAnswersRef.current = next;
     return next;
@@ -626,14 +626,23 @@ function BookACallPage() {
                                     })}
                                   </div>
                                 ) : (
-                                  <textarea
-                                    ref={(element) => {
-                                      textAnswerElementsRef.current[question.id] = element;
-                                    }}
-                                    defaultValue={textAnswersRef.current[question.id] ?? ""}
-                                    className="mt-4 block min-h-[112px] w-full resize-y rounded-2xl border border-border bg-white px-4 py-3 text-sm leading-relaxed text-foreground caret-[#111722] outline-none transition placeholder:text-muted-foreground/70 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/15"
-                                    placeholder="Escreva aqui..."
-                                  />
+                                  <div className="relative mt-4">
+                                    <div
+                                      ref={(element) => {
+                                        textAnswerElementsRef.current[question.id] = element;
+                                      }}
+                                      role="textbox"
+                                      tabIndex={0}
+                                      contentEditable
+                                      suppressContentEditableWarning
+                                      className="peer min-h-[112px] w-full rounded-2xl border border-border bg-white px-4 py-3 text-sm leading-relaxed text-foreground caret-[#111722] outline-none transition empty:before:content-[''] focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/15"
+                                    >
+                                      {textAnswersRef.current[question.id] ?? ""}
+                                    </div>
+                                    <span className="pointer-events-none absolute left-4 top-3 text-sm text-muted-foreground/70 transition peer-focus:hidden peer-[&:not(:empty)]:hidden">
+                                      Escreva aqui...
+                                    </span>
+                                  </div>
                                 )}
                               </div>
                             ))}

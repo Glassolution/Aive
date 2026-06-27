@@ -7,5 +7,6 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), tsConfigPaths()],
   build: {
     outDir: "dist-vercel",
+    chunkSizeWarningLimit: 900,
   },
 });
