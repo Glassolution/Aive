@@ -135,8 +135,8 @@ function buildCalendarDays(monthDate: Date) {
 }
 
 function BookACallPage() {
-  const nameInputRef = useRef<HTMLDivElement>(null);
-  const emailInputRef = useRef<HTMLDivElement>(null);
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
   const choiceAnswersRef = useRef<Record<number, string>>({});
   const textAnswerElementsRef = useRef<Record<number, HTMLTextAreaElement | null>>({});
   const textAnswersRef = useRef<Record<number, string>>({});
@@ -144,7 +144,6 @@ function BookACallPage() {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedStartAt, setSelectedStartAt] = useState("");
   const [choiceAnswers, setChoiceAnswers] = useState<Record<number, string>>({});
-  const [textAnswers, setTextAnswers] = useState<Record<number, string>>({});
   const [activeQuestionTopicIndex, setActiveQuestionTopicIndex] = useState(0);
   const [visibleMonth, setVisibleMonth] = useState(() => {
     const now = new Date();
@@ -217,8 +216,8 @@ function BookACallPage() {
   const isLastQuestionTopic = activeQuestionTopicIndex === bookingQuestionTopics.length - 1;
 
   function clearQuestionStepAnswers() {
-    nameInputRef.current?.replaceChildren();
-    emailInputRef.current?.replaceChildren();
+    if (nameInputRef.current) nameInputRef.current.value = "";
+    if (emailInputRef.current) emailInputRef.current.value = "";
     choiceAnswersRef.current = {};
     textAnswersRef.current = {};
     for (const element of Object.values(textAnswerElementsRef.current)) {
@@ -226,7 +225,6 @@ function BookACallPage() {
     }
     textAnswerElementsRef.current = {};
     setChoiceAnswers({});
-    setTextAnswers({});
     setActiveQuestionTopicIndex(0);
     setError("");
   }
@@ -243,12 +241,9 @@ function BookACallPage() {
       choiceAnswersRef.current = next;
       return next;
     });
-    setTextAnswers((current) => {
-      const next = { ...current };
-      for (const id of questionIdsToClear) delete next[id];
-      textAnswersRef.current = next;
-      return next;
-    });
+    const nextTextAnswers = { ...textAnswersRef.current };
+    for (const id of questionIdsToClear) delete nextTextAnswers[id];
+    textAnswersRef.current = nextTextAnswers;
     for (const id of questionIdsToClear) {
       if (textAnswerElementsRef.current[id]) textAnswerElementsRef.current[id].value = "";
       textAnswerElementsRef.current[id] = null;
@@ -262,14 +257,6 @@ function BookACallPage() {
       [questionId]: value,
     };
     setChoiceAnswers(choiceAnswersRef.current);
-  }
-
-  function updateTextAnswer(questionId: number, value: string) {
-    textAnswersRef.current = {
-      ...textAnswersRef.current,
-      [questionId]: value,
-    };
-    setTextAnswers(textAnswersRef.current);
   }
 
   function collectTextAnswers() {
@@ -343,8 +330,8 @@ function BookACallPage() {
             : currentTextAnswers[question.id]?.trim() ?? "",
       }));
       const payload = {
-        name: nameInputRef.current?.textContent?.trim() ?? "",
-        email: emailInputRef.current?.textContent?.trim() ?? "",
+        name: nameInputRef.current?.value.trim() ?? "",
+        email: emailInputRef.current?.value.trim() ?? "",
         questionnaire,
         startAt: selectedStartAt,
       };
@@ -559,23 +546,17 @@ function BookACallPage() {
                           </p>
 
                           <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                            <div
+                            <input
                               ref={nameInputRef}
-                              role="textbox"
-                              tabIndex={0}
-                              contentEditable
-                              suppressContentEditableWarning
+                              type="text"
                               className="aive-text-field"
-                              data-placeholder="Seu nome"
+                              placeholder="Seu nome"
                             />
-                            <div
+                            <input
                               ref={emailInputRef}
-                              role="textbox"
-                              tabIndex={0}
-                              contentEditable
-                              suppressContentEditableWarning
+                              type="email"
                               className="aive-text-field"
-                              data-placeholder="Seu e-mail"
+                              placeholder="Seu e-mail"
                             />
                           </div>
 
@@ -648,9 +629,6 @@ function BookACallPage() {
                                       textAnswerElementsRef.current[question.id] = element;
                                     }}
                                     defaultValue={textAnswersRef.current[question.id] ?? ""}
-                                    onBlur={(event) => {
-                                      updateTextAnswer(question.id, event.currentTarget.value);
-                                    }}
                                     className="aive-text-field mt-4 min-h-[92px] w-full resize-none px-4 py-3 text-sm leading-relaxed outline-none"
                                     placeholder="Escreva aqui..."
                                   />
