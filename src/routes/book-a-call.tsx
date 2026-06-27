@@ -549,14 +549,16 @@ function BookACallPage() {
                             <input
                               ref={nameInputRef}
                               type="text"
-                              className="aive-text-field"
+                              className="block h-14 w-full rounded-2xl border border-border bg-white px-4 text-sm text-foreground caret-[#111722] outline-none transition placeholder:text-muted-foreground/70 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/15"
                               placeholder="Seu nome"
+                              autoComplete="name"
                             />
                             <input
                               ref={emailInputRef}
                               type="email"
-                              className="aive-text-field"
+                              className="block h-14 w-full rounded-2xl border border-border bg-white px-4 text-sm text-foreground caret-[#111722] outline-none transition placeholder:text-muted-foreground/70 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/15"
                               placeholder="Seu e-mail"
+                              autoComplete="email"
                             />
                           </div>
 
@@ -629,7 +631,7 @@ function BookACallPage() {
                                       textAnswerElementsRef.current[question.id] = element;
                                     }}
                                     defaultValue={textAnswersRef.current[question.id] ?? ""}
-                                    className="aive-text-field mt-4 min-h-[92px] w-full resize-none px-4 py-3 text-sm leading-relaxed outline-none"
+                                    className="mt-4 block min-h-[112px] w-full resize-y rounded-2xl border border-border bg-white px-4 py-3 text-sm leading-relaxed text-foreground caret-[#111722] outline-none transition placeholder:text-muted-foreground/70 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/15"
                                     placeholder="Escreva aqui..."
                                   />
                                 )}
