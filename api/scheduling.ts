@@ -12,6 +12,13 @@ const schedulingConfig = {
   daysToShow: 60,
 };
 
+type SanitizedQuestionnaireItem = {
+  id: number;
+  categoria: string;
+  pergunta: string;
+  resposta: string;
+};
+
 const dateFormatter = new Intl.DateTimeFormat("pt-BR", {
   timeZone: schedulingConfig.timezone,
   weekday: "short",
@@ -299,7 +306,7 @@ function validateBooking(input: any) {
           pergunta: typeof item?.pergunta === "string" ? item.pergunta.trim().slice(0, 240) : "",
           resposta: typeof item?.resposta === "string" ? item.resposta.trim().slice(0, 600) : "",
         }))
-        .filter((item) => item.id > 0 && item.categoria && item.pergunta)
+        .filter((item: SanitizedQuestionnaireItem) => item.id > 0 && item.categoria && item.pergunta)
         .slice(0, 12)
     : [];
 

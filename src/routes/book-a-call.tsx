@@ -693,7 +693,10 @@ function TimezoneSelect({
     <div
       className={`relative ${isOpen ? "z-[80]" : "z-10"} ${compact ? "mt-3 w-fit" : "w-full sm:w-auto"}`}
       onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setIsOpen(false);
+        const nextFocusedElement = event.relatedTarget;
+        if (!(nextFocusedElement instanceof Node) || !event.currentTarget.contains(nextFocusedElement)) {
+          setIsOpen(false);
+        }
       }}
     >
       <button
