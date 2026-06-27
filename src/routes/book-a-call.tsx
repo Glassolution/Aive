@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ClipboardEvent } from "react";
 import { CalendarDays, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Globe2, Loader2 } from "lucide-react";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/book-a-call")({
       {
         name: "description",
         content:
-          "Agende uma sessão gratuita de 45 minutos para mapear como conquistar 6-8 clientes de telhados por mês sem pagar investimento em anúncios.",
+          "Agende uma sessão gratuita de 45 minutos para mapear como conquistar 6-8 clientes de pintura por mês sem pagar investimento em anúncios.",
       },
     ],
   }),
@@ -45,7 +45,7 @@ const bookingQuestions = [
   {
     id: 1,
     categoria: "Negócio",
-    pergunta: "Quantos telhados você instala por mês hoje?",
+    pergunta: "Quantos projetos de pintura você fecha por mês hoje?",
     tipo: "multipla_escolha",
     opcoes: ["Menos de 5", "5 a 10", "11 a 20", "Mais de 20"],
   },
@@ -134,9 +134,15 @@ function buildCalendarDays(monthDate: Date) {
   return cells;
 }
 
+function pastePlainText(event: ClipboardEvent<HTMLElement>) {
+  event.preventDefault();
+  const text = event.clipboardData.getData("text/plain");
+  document.execCommand("insertText", false, text);
+}
+
 function BookACallPage() {
-  const nameInputRef = useRef<HTMLInputElement>(null);
-  const emailInputRef = useRef<HTMLInputElement>(null);
+  const nameInputRef = useRef<HTMLDivElement>(null);
+  const emailInputRef = useRef<HTMLDivElement>(null);
   const choiceAnswersRef = useRef<Record<number, string>>({});
   const textAnswerElementsRef = useRef<Record<number, HTMLDivElement | null>>({});
   const textAnswersRef = useRef<Record<number, string>>({});
@@ -216,8 +222,8 @@ function BookACallPage() {
   const isLastQuestionTopic = activeQuestionTopicIndex === bookingQuestionTopics.length - 1;
 
   function clearQuestionStepAnswers() {
-    if (nameInputRef.current) nameInputRef.current.value = "";
-    if (emailInputRef.current) emailInputRef.current.value = "";
+    if (nameInputRef.current) nameInputRef.current.textContent = "";
+    if (emailInputRef.current) emailInputRef.current.textContent = "";
     choiceAnswersRef.current = {};
     textAnswersRef.current = {};
     for (const element of Object.values(textAnswerElementsRef.current)) {
@@ -330,8 +336,8 @@ function BookACallPage() {
             : currentTextAnswers[question.id]?.trim() ?? "",
       }));
       const payload = {
-        name: nameInputRef.current?.value.trim() ?? "",
-        email: emailInputRef.current?.value.trim() ?? "",
+        name: nameInputRef.current?.textContent?.trim() ?? "",
+        email: emailInputRef.current?.textContent?.trim() ?? "",
         questionnaire,
         startAt: selectedStartAt,
       };
@@ -393,7 +399,7 @@ function BookACallPage() {
               Agende sua sessão de estratégia gratuita.
             </h1>
             <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Uma chamada de 45 minutos onde vamos mapear exatamente como conseguir 6-8 clientes de telhados por
+              Uma chamada de 45 minutos onde vamos mapear exatamente como conseguir 6-8 clientes de pintura por
               mês, sem pagar investimento em anúncios.
             </p>
             <ul className="mt-8 space-y-4 text-sm text-foreground sm:text-base">
@@ -546,20 +552,43 @@ function BookACallPage() {
                           </p>
 
                           <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                            <input
-                              ref={nameInputRef}
-                              type="text"
-                              className="block h-14 w-full rounded-2xl border border-border bg-white px-4 text-sm text-foreground caret-[#111722] outline-none transition placeholder:text-muted-foreground/70 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/15"
-                              placeholder="Seu nome"
-                              autoComplete="name"
-                            />
-                            <input
-                              ref={emailInputRef}
-                              type="email"
-                              className="block h-14 w-full rounded-2xl border border-border bg-white px-4 text-sm text-foreground caret-[#111722] outline-none transition placeholder:text-muted-foreground/70 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/15"
-                              placeholder="Seu e-mail"
-                              autoComplete="email"
-                            />
+                            <div className="relative h-14 rounded-2xl border border-border bg-white transition focus-within:border-[#ff6b00] focus-within:ring-2 focus-within:ring-[#ff6b00]/15">
+                              <div
+                                ref={nameInputRef}
+                                role="textbox"
+                                tabIndex={0}
+                                contentEditable
+                                suppressContentEditableWarning
+                                aria-label="Seu nome"
+                                onKeyDown={(event) => {
+                                  if (event.key === "Enter") event.preventDefault();
+                                }}
+                                onPaste={pastePlainText}
+                                className="peer absolute left-4 right-4 top-1/2 h-5 -translate-y-1/2 overflow-hidden whitespace-nowrap text-sm leading-5 text-foreground caret-[#111722] outline-none empty:before:content-['']"
+                              />
+                              <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-muted-foreground/70 transition peer-focus:hidden peer-[&:not(:empty)]:hidden">
+                                Seu nome
+                              </span>
+                            </div>
+                            <div className="relative h-14 rounded-2xl border border-border bg-white transition focus-within:border-[#ff6b00] focus-within:ring-2 focus-within:ring-[#ff6b00]/15">
+                              <div
+                                ref={emailInputRef}
+                                role="textbox"
+                                tabIndex={0}
+                                contentEditable
+                                suppressContentEditableWarning
+                                aria-label="Seu e-mail"
+                                inputMode="email"
+                                onKeyDown={(event) => {
+                                  if (event.key === "Enter") event.preventDefault();
+                                }}
+                                onPaste={pastePlainText}
+                                className="peer absolute left-4 right-4 top-1/2 h-5 -translate-y-1/2 overflow-hidden whitespace-nowrap text-sm leading-5 text-foreground caret-[#111722] outline-none empty:before:content-['']"
+                              />
+                              <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-muted-foreground/70 transition peer-focus:hidden peer-[&:not(:empty)]:hidden">
+                                Seu e-mail
+                              </span>
+                            </div>
                           </div>
 
                           <div className="mt-7">
