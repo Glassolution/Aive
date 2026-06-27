@@ -138,6 +138,7 @@ function BookACallPage() {
   const nameInputRef = useRef<HTMLDivElement>(null);
   const emailInputRef = useRef<HTMLDivElement>(null);
   const choiceAnswersRef = useRef<Record<number, string>>({});
+  const textAnswerElementsRef = useRef<Record<number, HTMLTextAreaElement | null>>({});
   const textAnswersRef = useRef<Record<number, string>>({});
   const [slotsData, setSlotsData] = useState<SlotsResponse | null>(null);
   const [selectedDate, setSelectedDate] = useState("");
@@ -220,6 +221,10 @@ function BookACallPage() {
     emailInputRef.current?.replaceChildren();
     choiceAnswersRef.current = {};
     textAnswersRef.current = {};
+    for (const element of Object.values(textAnswerElementsRef.current)) {
+      if (element) element.value = "";
+    }
+    textAnswerElementsRef.current = {};
     setChoiceAnswers({});
     setTextAnswers({});
     setActiveQuestionTopicIndex(0);
@@ -244,6 +249,10 @@ function BookACallPage() {
       textAnswersRef.current = next;
       return next;
     });
+    for (const id of questionIdsToClear) {
+      if (textAnswerElementsRef.current[id]) textAnswerElementsRef.current[id].value = "";
+      textAnswerElementsRef.current[id] = null;
+    }
     setError("");
   }
 
@@ -263,6 +272,15 @@ function BookACallPage() {
     setTextAnswers(textAnswersRef.current);
   }
 
+  function collectTextAnswers() {
+    const next = { ...textAnswersRef.current };
+    for (const [id, element] of Object.entries(textAnswerElementsRef.current)) {
+      if (element) next[Number(id)] = element.value;
+    }
+    textAnswersRef.current = next;
+    return next;
+  }
+
   function chooseDate(dateKey: string) {
     setSelectedDate(dateKey);
     setSelectedStartAt("");
@@ -280,6 +298,8 @@ function BookACallPage() {
   }
 
   function handleQuestionStepAction() {
+    collectTextAnswers();
+
     const unansweredChoice = activeTopicQuestions.find(
       (question) => question.tipo === "multipla_escolha" && !choiceAnswersRef.current[question.id],
     );
@@ -312,6 +332,7 @@ function BookACallPage() {
     setError("");
 
     try {
+      const currentTextAnswers = collectTextAnswers();
       const questionnaire = bookingQuestions.map((question) => ({
         id: question.id,
         categoria: question.categoria,
@@ -319,7 +340,7 @@ function BookACallPage() {
         resposta:
           question.tipo === "multipla_escolha"
             ? choiceAnswersRef.current[question.id] ?? ""
-            : textAnswersRef.current[question.id]?.trim() ?? "",
+            : currentTextAnswers[question.id]?.trim() ?? "",
       }));
       const payload = {
         name: nameInputRef.current?.textContent?.trim() ?? "",
@@ -623,10 +644,12 @@ function BookACallPage() {
                                   </div>
                                 ) : (
                                   <textarea
-                                    value={textAnswers[question.id] ?? ""}
-                                    onChange={(event) => {
-                                      const value = event.currentTarget.value;
-                                      updateTextAnswer(question.id, value);
+                                    ref={(element) => {
+                                      textAnswerElementsRef.current[question.id] = element;
+                                    }}
+                                    defaultValue={textAnswersRef.current[question.id] ?? ""}
+                                    onBlur={(event) => {
+                                      updateTextAnswer(question.id, event.currentTarget.value);
                                     }}
                                     className="aive-text-field mt-4 min-h-[92px] w-full resize-none px-4 py-3 text-sm leading-relaxed outline-none"
                                     placeholder="Escreva aqui..."
